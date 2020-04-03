@@ -1,4 +1,6 @@
 class AccountingController < ActionController::Base
+  layout "application"
+
   require 'xero-ruby'
 
   def invoices
