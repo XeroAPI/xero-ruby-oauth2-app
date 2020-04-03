@@ -1,0 +1,5 @@
+<ol>
+  <% @invoices.each do |invoice| %>
+    <li><%= invoice.invoice_id %> || <%= invoice.amount_due %></li>  
+  <% end %>
+</ol>
