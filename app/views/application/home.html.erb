@@ -1,1 +1,15 @@
 Welcome
+<hr>
+<% if current_user %>
+  <h3>Decoded ID Token</h3>
+  <%= @id_token %>
+  <hr>
+  <h3>Decoded Access Token</h3>
+  <%= @access_token %>
+  <hr>
+  <h3>Rest of Token Set</h3>
+  <%= current_user.token_set.without('id_token', 'access_token') %>
+  <hr>
+<% else %>
+  To begin <%= link_to 'Log In', login_path %> or <%= link_to 'Sign Up', new_user_path %>, then you can authenticate with Xero account
+<% end %>

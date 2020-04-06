@@ -59,14 +59,18 @@
   </nav>
    <div class='core-content'>
       <header>
-
-        <a href="<%= @authorization_url %>">
-          <img src='https://developer.xero.com/static/images/documentation/ConnectToXero2019/connect-blue.svg'>
-        </a>
-
+        <% if current_user && !current_user.token_set %>
+          <a href="<%= @authorization_url %>">
+            <img src='https://developer.xero.com/static/images/documentation/ConnectToXero2019/connect-blue.svg'>
+          </a>
+        <% end %>
         <div class='nav-settings'>
-          
         </div>
+        <% if current_user %>
+          <div class='nav-settings'>
+            <%= button_to "Log Out - Rails", logout_path, method: :delete %>
+          </div>
+        <% end %>
         <div class='nav-settings'>
           <a href="/refresh-token">
             <input type="submit" class="select-input" value="Refresh Token">
@@ -84,6 +88,11 @@
 
       <div class='body-wrapper'>
         <div class='body-content'>
+          <% flash.each do |type, msg| %>
+            <div class='flash-message'>
+              <%= msg %>
+            </div>
+          <% end %>
           <%= yield %>
         </div>
       </div>

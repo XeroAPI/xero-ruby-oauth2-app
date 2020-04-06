@@ -1,7 +1,20 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "application#home"
-  get '/callback', to: 'application#callback'
+
+  # user routes
+  get 'users/new' => 'users#new', as: :new_user
+  post 'users' => 'users#create'
+
+  # session routes
+  get '/login'     => 'sessions#new'
+	post '/login'    => 'sessions#create'
+	delete '/logout' => 'sessions#destroy'  
   
+  ## Xero 
+
+  # authentication routes
+  get '/callback', to: 'application#callback'
+
+  # accounting routes
   get '/invoices', to: 'accounting#invoices'
 end

@@ -83,6 +83,9 @@ pre {
   flex: 5;
   max-width: 80%;
 }
+.body-content {
+  word-break: break-word;
+}
 .auth-notification {
   color: red;
   font-size: 20px;
@@ -193,6 +196,18 @@ header, nav {
   font-size: 15px;
   letter-spacing: 2px;
   margin-left: 10px;
+}
+
+.flash-message {
+  background: whitesmoke;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px;
+  border: 2px solid #00a3d3;
+}
+
+form div {
+  padding: 10px;
 }
 
 @-webkit-keyframes fadeinout {
