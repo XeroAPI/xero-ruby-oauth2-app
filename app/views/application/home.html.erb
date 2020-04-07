@@ -1,6 +1,7 @@
-Welcome
-<hr>
-<% if current_user %>
+<% if current_user && current_user.token_set %>
+  <h5>Rails session: <u><%= current_user.email %></u></h5>
+  <h5>Token Expires in: <u><%= time_ago_in_words(Time.at(@access_token['exp'])) %></u></h5>
+  <hr>
   <h3>Decoded ID Token</h3>
   <%= @id_token %>
   <hr>
