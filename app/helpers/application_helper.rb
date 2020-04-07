@@ -1,6 +1,12 @@
 module ApplicationHelper
   require 'jwt'
 
+  def token_expired
+    token_expiry = Time.at(@access_token['exp'])
+    exp_text = time_ago_in_words(token_expiry)
+    token_expiry > Time.now ? "in #{exp_text}" : "#{exp_text} ago" 
+  end
+
   def decode_token_set(token_set)
     if token_set
       @id_token = JWT.decode(token_set['id_token'], nil, false)[0]
