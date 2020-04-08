@@ -12,7 +12,7 @@
   <body>
     <nav class='left-banner menu-items'>
     <ul>
-      <h2><a href="/">Home</a></h2>
+      <h2><%= image_tag 'Ruby.png', style: 'margin-right: 10px;' %><a href="/">Home</a></h2>
       <hr>
       <h4 style='margin-bottom: 20px;'>ACCOUNTING:</h4>
       <li><a href="/accounts">Accounts</a></li>
@@ -60,7 +60,7 @@
    <div class='core-content'>
       <header>
         <% if current_user && !current_user.token_set %>
-          <a href="<%= @authorization_url %>">
+          <a href="<%= authorization_url %>">
             <img src='https://developer.xero.com/static/images/documentation/ConnectToXero2019/connect-blue.svg'>
           </a>
         <% end %>
@@ -70,27 +70,25 @@
           <div class='nav-settings'>
             <%= button_to "Log Out - Rails", logout_path, method: :delete %>
           </div>
+          <% if current_user.token_set %>
+            <div class='nav-settings'>
+              <%= button_to 'Refresh Token', '/refresh-token', method: :post %>
+            </div>
+            <div class='nav-settings'>
+              <%= form_for 'change_organisation', url: change_organisation_path, method: :post do |f| %>
+                <%= f.select :active_tenant_id, current_user.token_set['connections'].map{|c| c['tenantId']}, selected: current_user.active_tenant_id  %>
+                <%= f.submit "Change Org" %>
+              <% end %>
+            </div>
+          <% end %>
         <% end %>
-        <div class='nav-settings'>
-          <a href="/refresh-token">
-            <input type="submit" class="select-input" value="Refresh Token">
-          </a>
-        </div>
-        <div class='nav-settings'>
-          <form method='POST' action="/change_organisation">
-            <select name='active_org_id' class="select-box">
-              Select org
-            </select>
-            <input type="submit" class="select-input" value="Change Org">
-          </form>
-        </div>
       </header>
 
       <div class='body-wrapper'>
         <div class='body-content'>
           <% flash.each do |type, msg| %>
             <div class='flash-message'>
-              <%= msg %>
+              <%= msg.html_safe %>
             </div>
           <% end %>
           <%= yield %>

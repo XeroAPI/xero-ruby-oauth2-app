@@ -6,21 +6,39 @@ class ApplicationController < ActionController::Base
   before_action :xero_client
 
   def home
-    decode_token_set(current_user.token_set)
   end
 
   def callback
     @token_set = @xero_client.get_token_set_from_callback(params)
+    # you can use `@xero_client.connections` to fetch info about which orgs
+    # the user has authorized and the most recently connected tenant_id
     current_user.token_set = @token_set if !@token_set["error"]
+    current_user.token_set['connections'] = @xero_client.connections
+    current_user.active_tenant_id = latest_connection(current_user.token_set['connections'])
     current_user.save!
-    flash.now.notice = "Successfully received Xero Token Set"
+    flash.notice = "Successfully received Xero Token Set"
   end
 
   def refresh_token
     @token_set = @xero_client.refresh_token_set(current_user.token_set)
     current_user.token_set = @token_set if !@token_set["error"]
+    current_user.token_set['connections'] = @xero_client.connections
+    current_user.active_tenant_id = latest_connection(current_user.token_set['connections'])
     current_user.save!
-    decode_token_set(current_user.token_set)
-    render 'home', notice: 'Token Refreshed'
+    flash.notice = "Successfully Refreshed Token"
+    redirect_to root_url
+  end
+
+  def change_organisation
+    current_user.active_tenant_id = params['change_organisation']['active_tenant_id']
+    current_user.save!
+    flash.notice = "Current Tenant/Org updated <strong>#{current_user.active_tenant_id}</strong>"
+    redirect_to root_url
+  end
+
+  def latest_connection(connections)
+    connections.sort { |a,b|
+      DateTime.parse(a['createdDateUtc']) <=> DateTime.parse(b['createdDateUtc'])
+    }.first
   end
 end

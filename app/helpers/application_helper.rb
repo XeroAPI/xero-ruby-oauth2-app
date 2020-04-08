@@ -2,16 +2,17 @@ module ApplicationHelper
   require 'jwt'
 
   def token_expired
-    token_expiry = Time.at(@access_token['exp'])
+    token_expiry = Time.at(access_token['exp'])
     exp_text = time_ago_in_words(token_expiry)
     token_expiry > Time.now ? "in #{exp_text}" : "#{exp_text} ago" 
   end
 
-  def decode_token_set(token_set)
-    if token_set
-      @id_token = JWT.decode(token_set['id_token'], nil, false)[0]
-      @access_token = JWT.decode(token_set['access_token'], nil, false)[0]
-    end
+  def id_token
+    JWT.decode(current_user.token_set['id_token'], nil, false)[0] if current_user && current_user.token_set
+  end
+
+  def access_token
+    JWT.decode(current_user.token_set['access_token'], nil, false)[0] if current_user && current_user.token_set
   end
 
   def current_user
@@ -29,13 +30,13 @@ module ApplicationHelper
   end
 
   def accounting_api
-    # used to ensure the access_token is being set on the current client
+    # this sets the access_token on the current client
     xero_client.set_token_set(current_user.token_set)
 
     accounting_api = XeroRuby::AccountingApi.new(xero_client)
   end
 
   def authorization_url
-    @authorization_url = @xero_client.authorization_url 
+    @authorization_url ||= @xero_client.authorization_url 
   end
 end

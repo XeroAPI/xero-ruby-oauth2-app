@@ -11,11 +11,10 @@ Rails.application.routes.draw do
 	delete '/logout' => 'sessions#destroy'  
   
   ## Xero 
-
   # authentication routes
   get '/callback', to: 'application#callback'
-  get '/refresh-token', to: 'application#refresh_token'
-  get '/change_organisation', to: 'application#change_organisation'
+  post '/refresh-token', to: 'application#refresh_token'
+  post '/change_organisation', to: 'application#change_organisation'
 
 
   # accounting routes
