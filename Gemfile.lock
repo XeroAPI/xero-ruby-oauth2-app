@@ -1,7 +1,7 @@
 PATH
   remote: /Users/chris.knight/code/sdks/xero-ruby/accounting
   specs:
-    xero-ruby (0.3.4)
+    xero-ruby (0.4.0)
       faraday (>= 0.14.0)
       json (~> 2.1, >= 2.1.0)
 

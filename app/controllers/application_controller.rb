@@ -39,6 +39,6 @@ class ApplicationController < ActionController::Base
   def latest_connection(connections)
     connections.sort { |a,b|
       DateTime.parse(a['createdDateUtc']) <=> DateTime.parse(b['createdDateUtc'])
-    }.first
+    }.first['tenantId']
   end
 end

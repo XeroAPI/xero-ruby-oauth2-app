@@ -30,8 +30,12 @@ module ApplicationHelper
   end
 
   def accounting_api
+    # if your client is being created after you already have
+    # a valid access_token, you can initialize it without `config:` or `credentials:`
+    # and simply set the token set on the client
+    client ||= XeroRuby::ApiClient.new()
     # this sets the access_token on the current client
-    xero_client.set_token_set(current_user.token_set)
+    client.set_token_set(current_user.token_set)
 
     accounting_api = XeroRuby::AccountingApi.new(xero_client)
   end
