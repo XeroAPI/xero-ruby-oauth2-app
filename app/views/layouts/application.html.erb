@@ -26,17 +26,12 @@
       <li><a href="/currencies">Currencies</a></li>
       <li><a href="/employees">Employees</a></li>
       <li><a href="/invoices">Invoices</a></li>
-      <li><a href="/invoice-as-pdf">Invoice (as PDF)</a></li>
-      <li><a href="/invoices-filtered">Invoices (filtered)</a></li>
-      <li><a href="/attachment-invoice">Invoices (Attach File)</a></li>
-      <li><a href="/invoicereminders">Invoice Reminders</a></li>
       <li><a href="/items">Items</a></li>
       <li><a href="/journals">Journals</a></li>
       <li><a href="/linked-transactions">Linked Transactions</a></li>
       <li><a href="/manualjournals">Manual Journals</a></li>
       <li><a href="/organisations">Organisation</a></li>
       <li><a href="/overpayments">Over payments</a></li>
-      <li><a href="/paymentservices">Payment Services</a></li>
       <li><a href="/payments">Payments</a></li>
       <li><a href="/prepayments">Pre Payments</a></li>
       <li><a href="/purchaseorders">Purchase Orders</a></li>
@@ -48,13 +43,13 @@
       <li><a href="/users">Users</a></li>
       <hr>
       <h4 style='margin-bottom: 20px;'>ASSETS:</h4>
-      <li><a href="/assets">Assets</a></li>
+      <li><a href="#wip">Assets (work in progress)</a></li>
       <hr>
       <h4 style='margin-bottom: 20px;'>PROJECTS:</h4>
-      <li><a href="/projects">Projects</a></li>
-      <li><a href="/project-users">Users</a></li>
-      <li><a href="/tasks">Tasks</a></li>
-      <li><a href="/time">Time</a></li>
+      <li><a href="#wip">Projects (work in progress)</a></li>
+      <li><a href="#wip-users">Users (work in progress)</a></li>
+      <li><a href="#wip">Tasks (work in progress)</a></li>
+      <li><a href="#wip">Time (work in progress)</a></li>
     </ul>
   </nav>
    <div class='core-content'>
@@ -76,7 +71,8 @@
             </div>
             <div class='nav-settings'>
               <%= form_for 'change_organisation', url: change_organisation_path, method: :post do |f| %>
-                <%= f.select :active_tenant_id, current_user.token_set['connections'].map{|c| c['tenantId']}, selected: current_user.active_tenant_id  %>
+                <% selected = current_user.token_set['connections'].filter{|t| t['tenantId'] == current_user.active_tenant_id }[0] %>
+                <%= f.select :active_tenant_id, options_for_select(current_user.token_set['connections'].map{ |c| [c['tenantName'], c['tenantId']] }, selected: selected['tenantId']) %>
                 <%= f.submit "Change Org" %>
               <% end %>
             </div>

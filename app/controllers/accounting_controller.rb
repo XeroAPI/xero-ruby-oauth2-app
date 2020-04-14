@@ -20,11 +20,16 @@ class AccountingController < ActionController::Base
       page: 1, # Integer | Up to 100 bank transactions will be returned in a single API call with line items details
       unitdp: 4 # Integer | e.g. unitdp=4 – (Unit Decimal Places) You can opt in to use four decimal places for unit amounts
     }
-    @bank_transactions = accounting_api.get_bank_transactions(current_user.active_tenant_id)
+    @bank_transactions = accounting_api.get_bank_transactions(current_user.active_tenant_id).bank_transactions
   end
 
   def banktranfers
-    @banktranfers = accounting_api.get_banktranfers(current_user.active_tenant_id).banktranfers
+    opts = {
+      if_modified_since: DateTime.parse('2020-02-06T12:17:43.202-08:00'), # DateTime | Only records created or modified since this timestamp will be returned
+      where: 'Status==\"' + "Active" + '\"', # String | Filter by an any element
+      order: 'Amount ASC' # String | Order by an any element
+    }
+    @banktranfers = accounting_api.get_bank_transfer(current_user.active_tenant_id, '?' + opts.to_query).bank_transfers
   end
 
   def batchpayments
@@ -79,10 +84,6 @@ class AccountingController < ActionController::Base
     @overpayments = accounting_api.get_overpayments(current_user.active_tenant_id).overpayments
   end
 
-  def paymentservices
-    @paymentservices = accounting_api.get_payment_services(current_user.active_tenant_id).payment_services
-  end
-
   def payments
     @payments = accounting_api.get_payments(current_user.active_tenant_id).payments
   end
@@ -92,7 +93,7 @@ class AccountingController < ActionController::Base
   end
 
   def purchaseorders
-    @purchaseorders = accounting_api.get_purchaseorders(current_user.active_tenant_id).purchaseorders
+    @purchaseorders = accounting_api.get_purchase_orders(current_user.active_tenant_id).purchase_orders
   end
 
   def quotes
@@ -104,15 +105,16 @@ class AccountingController < ActionController::Base
   end
 
   def reports
-    @reports = accounting_api.get_reports(current_user.active_tenant_id).reports
+    contact_id = accounting_api.get_contacts(current_user.active_tenant_id).contacts[0].contact_id
+    @reports = accounting_api.get_report_aged_payables_by_contact(current_user.active_tenant_id, contact_id).reports
   end
 
   def taxrates
-    @taxrates = accounting_api.get_taxrates(current_user.active_tenant_id).taxrates
+    @taxrates = accounting_api.get_tax_rates(current_user.active_tenant_id).tax_rates
   end
 
   def trackingcategories
-    @trackingcategories = accounting_api.get_transactions(trackingcategories).trackingcategories
+    @trackingcategories = accounting_api.get_tracking_categories(current_user.active_tenant_id).tracking_categories
   end
 
   def users
