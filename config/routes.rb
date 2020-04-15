@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get '/callback', to: 'application#callback'
   post '/refresh-token', to: 'application#refresh_token'
   post '/change_organisation', to: 'application#change_organisation'
+  post '/disconnect', to: 'application#disconnect'
 
 
   # accounting routes

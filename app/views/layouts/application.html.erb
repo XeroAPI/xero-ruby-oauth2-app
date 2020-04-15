@@ -58,7 +58,12 @@
           <a href="<%= authorization_url %>">
             <img src='https://developer.xero.com/static/images/documentation/ConnectToXero2019/connect-blue.svg'>
           </a>
+        <% elsif current_user %>
+          <a href="<%= authorization_url %>" title='Click to authorize +1 organisations'>
+            <img src='https://www.xero.com/etc/designs/xero-cms/clientlib/assets/img/logo/logo-xero-blue.svg'>
+          </a>
         <% end %>
+
         <div class='nav-settings'>
         </div>
         <% if current_user %>
@@ -69,9 +74,13 @@
             <div class='nav-settings'>
               <%= button_to 'Refresh Token', '/refresh-token', method: :post %>
             </div>
+            <% selected = current_user.token_set['connections'].filter{|t| t['tenantId'] == current_user.active_tenant_id }[0] %>
+            <div class='nav-settings'>
+              <%# the disconnect endpoint needs to be passed the connection['id'] - not the connection['tenant_id'] %>
+              <%= button_to 'Disconnect Org', { controller: 'application', action: 'disconnect', connection_id: selected['id'] },  method: :post %>
+            </div>
             <div class='nav-settings'>
               <%= form_for 'change_organisation', url: change_organisation_path, method: :post do |f| %>
-                <% selected = current_user.token_set['connections'].filter{|t| t['tenantId'] == current_user.active_tenant_id }[0] %>
                 <%= f.select :active_tenant_id, options_for_select(current_user.token_set['connections'].map{ |c| [c['tenantName'], c['tenantId']] }, selected: selected['tenantId']) %>
                 <%= f.submit "Change Org" %>
               <% end %>
