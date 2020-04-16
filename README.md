@@ -1,4 +1,4 @@
-# Xero NodeJS OAuth 2.0 App
+# Xero Ruby OAuth 2.0 App
 This Ruby On Rails project demonstrates how to use the https://github.com/XeroAPI/xero-ruby SDK.
 
 Its purpose is to speed up new ruby devs looking to build amazing applications with the data of users of the Xero Accounting platform: https://xero.com/. Secure authentication is setup using industry standard OAuth2.0. Access/Refresh tokens fuel authorized api calls.
