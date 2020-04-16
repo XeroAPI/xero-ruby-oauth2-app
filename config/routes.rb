@@ -17,7 +17,6 @@ Rails.application.routes.draw do
   post '/change_organisation', to: 'application#change_organisation'
   post '/disconnect', to: 'application#disconnect'
 
-
   # accounting routes
   get '/accounts', to: 'accounting#accounts'
   get '/invoices', to: 'accounting#invoices'

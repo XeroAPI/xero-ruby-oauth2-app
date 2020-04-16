@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
-  require 'xero-ruby'  
+  require 'xero-ruby'
 
   helper_method :current_user
   before_action :xero_client
@@ -37,21 +37,11 @@ class ApplicationController < ActionController::Base
   end
 
   def disconnect
-    remaining_connections = xero_client.disconnect(params[:connection_id])
+    remaining_connections = @xero_client.disconnect(params[:connection_id])
     current_user.token_set['connections'] = remaining_connections
     current_user.active_tenant_id = latest_connection(current_user.token_set['connections'])
     current_user.save!
     flash.notice = "Removed <strong>#{current_user.active_tenant_id}</strong>"
     redirect_to root_url
-  end
-
-  def latest_connection(connections)
-    if connections.length
-      connections.sort { |a,b|
-        DateTime.parse(a['createdDateUtc']) <=> DateTime.parse(b['createdDateUtc'])
-      }.first['tenantId']
-    else
-      nil
-    end
   end
 end

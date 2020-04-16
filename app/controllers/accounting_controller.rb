@@ -5,7 +5,6 @@ class AccountingController < ActionController::Base
   
   def invoices
     @invoices = accounting_api.get_invoices(current_user.active_tenant_id).invoices
-
   end
 
   def accounts
