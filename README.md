@@ -1,45 +1,69 @@
-# README
+# Xero NodeJS OAuth 2.0 App
+This Ruby On Rails project demonstrates how to use the https://github.com/XeroAPI/xero-ruby SDK.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Its purpose is to speed up new ruby devs looking to build amazing applications with the data of users of the Xero Accounting platform: https://xero.com/. Secure authentication is setup using industry standard OAuth2.0. Access/Refresh tokens fuel authorized api calls.
 
-Things you may want to cover:
+Note: this project was built using:
+* ruby 2.7.0
+* Rails 6.0.2.2
+* psql (PostgreSQL) 12.2
 
-* Ruby version
+```
+git clone git@github.com:XeroAPI/xero-ruby-oauth2-app.git
+cd xero-ruby-oauth2-app
+bundle install
+```
 
-* System dependencies
+### Configure with your credentials
+* Create a [free Xero user account](https://www.xero.com/us/signup/api/)
+* Login to your Xero developer [/myapps](https://developer.xero.com/myapps) dashboard & create an API application
 
-* Configuration
+Create a `.env` in the root of your project directory or replace the env.sample
+```
+CLIENT_ID=...
+CLIENT_SECRET=...
+REDIRECT_URI=...
+```
 
-* Database creation
+## Start your server
+```
+bundle exec rake db:create db:migrate
+rails s
+```
+> By default rails runs on port 3000. Make sure you have in your /myapps dashboard 'http://localhost:5000/callback' or specify the port with `rails s -p 8080` etc.
 
-* Database initialization
+---
 
-* How to run the test suite
+## Important structure
+The project shows a strategy to effectively leverage the xero-ruby SDK. It is best documented by cloning/running the app but here are a few tips to quickly understanding the structure if you are not familair with Rails.
 
-* Services (job queues, cache servers, search engines, etc.)
+### Routes
+* config/routes.rb will give a great picture of this apps functionality
 
-* Deployment instructions
+### User model
+* One table :users - utilizes [super basic authentication](https://gist.github.com/iscott/4618dc0c85acb3daa5c26641d8be8d0d).
+* A JSON column :token_set that stores the entire `token_set` returned from the auth flow
+* A string file `active_tenant_id` that references the actively selected tenant/org 
 
-* ...
+### Application Controller
+Bulk of the auth flow logic. This uses a few helpers but shows how to handle the full authentication flow, refresh a token, disconnect an org, and even change which org you want to make api calls to.
+* callback
+* refresh_token
+* change_organisation
+* disconnect
 
+## Application Helper
+This includes some helpers that showcase how to decode the individual pieces of the `token_set` and show the multiple ways you can setup the `xero_client`, etc..
+* token_expired
+* id_token
+* access_token
+* current_user
+* xero_client
+* accounting_api
+* authorization_url
+* latest_connection
 
-# if your client is being created after you already have
-    # a valid access_token, you can initialize it without `config:` or `credentials:`
-    # and simply set the token set on the client
-    client ||= XeroRuby::ApiClient.new()
-    # this sets the access_token on the current client
-    client.set_token_set(current_user.token_set)
+---
 
-    accounting_api = XeroRuby::AccountingApi.new(xero_client)
-
-
-
-    1) chris.knight@ ~/code/sdks/xeroapi-sdk-codegen/scripts (xero_ruby_oauth2_flow_and_faraday) $ ./ruby.sh 
-
-    2) chris.knight@ ~/code/sdks/xero-ruby/accounting (oauth_2_and_faraday) $ mv xero-ruby-0.4.0.gem xero-ruby.gem
-
-    3) chris.knight@ ~/code/xero-ruby-oauth2-app/app (master) $ bundle
-
-    4) chris.knight@ ~/code/xero-ruby-oauth2-app/app (master) $ rails s -p 5000
-
+## Debugging
+* put `-fail` or `binding.pry` in your code for an interactive brower or terminal shell where you can inspect the current request, manipulate results and see where your code went wrong ;)
