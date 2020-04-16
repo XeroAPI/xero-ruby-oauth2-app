@@ -32,6 +32,8 @@ rails s
 ```
 > By default rails runs on port 3000. Make sure you have in your /myapps dashboard 'http://localhost:5000/callback' or specify the port with `rails s -p 8080` etc.
 
+![walkthrough](/assets/images/example.gif)
+
 ---
 
 ## Important structure
