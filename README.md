@@ -45,7 +45,7 @@ The project shows a strategy to effectively leverage the xero-ruby SDK. It is be
 ### User model
 * One table :users - utilizes [super basic authentication](https://gist.github.com/iscott/4618dc0c85acb3daa5c26641d8be8d0d).
 * A JSON column :token_set that stores the entire `token_set` returned from the auth flow
-* A string file `active_tenant_id` that references the actively selected tenant/org 
+* A string column `active_tenant_id` that references the actively selected tenant/org
 
 ### Application Controller
 Bulk of the auth flow logic. This uses a few helpers but shows how to handle the full authentication flow, refresh a token, disconnect an org, and even change which org you want to make api calls to.
@@ -69,3 +69,6 @@ This includes some helpers that showcase how to decode the individual pieces of 
 
 ## Debugging
 * put `-fail` or `binding.pry` in your code for an interactive brower or terminal shell where you can inspect the current request, manipulate results and see where your code went wrong ;)
+
+## Contributing
+You are very welcome to add/improve functionality - we will continue to make improvements that show more complex API usage like filter/sorting, paginating, and will add more CRUD workflows as new API sets are added to the ruby-sdk. Please open an issue if something is not working correctly.
