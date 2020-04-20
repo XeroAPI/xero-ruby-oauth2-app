@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.0'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.2'
-gem 'pg', '>= 0.18', '< 2.0'
+gem 'sqlite3'
 gem 'puma', '~> 4.1'
 gem 'sass-rails', '>= 6'
 gem 'webpacker', '~> 4.0'
@@ -26,7 +26,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'pry'
   gem 'better_errors'
-  gem "binding_of_caller"
+  gem 'binding_of_caller'
 end
 
 group :test do
@@ -39,6 +39,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'jwt'
-# gem 'xero-ruby'
-gem 'xero-ruby', path: "/Users/chris.knight/code/sdks/xero-ruby/accounting/"
+gem 'xero-ruby'
 
