@@ -6,7 +6,6 @@ Its purpose is to speed up new ruby devs looking to build amazing applications w
 Note: this project was built using:
 * ruby 2.7.0
 * Rails 6.0.2.2
-* psql (PostgreSQL) 12.2
 
 ```
 git clone git@github.com:XeroAPI/xero-ruby-oauth2-app.git
