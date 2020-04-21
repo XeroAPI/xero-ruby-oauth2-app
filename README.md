@@ -11,6 +11,7 @@ Note: this project was built using:
 git clone git@github.com:XeroAPI/xero-ruby-oauth2-app.git
 cd xero-ruby-oauth2-app
 bundle install
+yarn
 ```
 
 ### Configure with your credentials
