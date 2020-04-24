@@ -3,6 +3,8 @@ class AccountingController < ActionController::Base
   require 'xero-ruby'
   layout 'application'
 
+  before_action :has_token_set?
+
   # xero_client is setup in application_helper.rb
   
   def invoices

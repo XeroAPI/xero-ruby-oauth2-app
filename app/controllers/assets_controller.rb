@@ -2,6 +2,8 @@ class AssetsController < ActionController::Base
   include ApplicationHelper
   require 'xero-ruby'
   layout 'application'
+
+  before_action :has_token_set?
   
   def assets
     asset = {
