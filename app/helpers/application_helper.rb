@@ -27,6 +27,8 @@ module ApplicationHelper
       scopes: ENV['SCOPES']
     }
     @xero_client ||= XeroRuby::ApiClient.new(credentials: creds)
+    @xero_client.set_token_set(current_user.token_set)
+    return @xero_client
   end
 
   def accounting_api
@@ -35,7 +37,7 @@ module ApplicationHelper
     # and simply set the token set on the client
     client ||= XeroRuby::ApiClient.new()
     # this sets the access_token on the current client
-    client.set_token_set(current_user.token_set)
+    client
 
     accounting_api = XeroRuby::AccountingApi.new(xero_client)
   end
