@@ -10,6 +10,7 @@ class AssetsController < ActionController::Base
       "assetStatus": "DRAFT"
     }
     @asset = xero_client.asset_api.create_asset(current_user.active_tenant_id, asset)
+    @assets = xero_client.asset_api.get_assets(current_user.active_tenant_id, 'DRAFT').items # 'REGISTERED'
   end
 
 end
