@@ -45,4 +45,6 @@ Rails.application.routes.draw do
   get '/taxrates', to: 'accounting#taxrates'
   get '/trackingcategories', to: 'accounting#trackingcategories'
   get '/users', to: 'accounting#users'
+
+  get '/assets', to: 'assets#assets'
 end
