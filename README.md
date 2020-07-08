@@ -28,6 +28,7 @@ REDIRECT_URI=...
 ## Start your server
 ```
 bundle exec rake db:create db:migrate
+yarn
 rails s
 ```
 > By default rails runs on port 3000. Make sure you have in your /myapps dashboard 'http://localhost:3000/callback' or specify the port with `rails s -p 8080` etc.
