@@ -10,7 +10,6 @@ class AccountingController < ActionController::Base
   def invoices
     @invoices = xero_client.accounting_api.get_invoices(current_user.active_tenant_id).invoices
     @invoice = xero_client.accounting_api.get_invoice(current_user.active_tenant_id, @invoices.first.invoice_id)
-    puts @invoice
   end
 
   def accounts
