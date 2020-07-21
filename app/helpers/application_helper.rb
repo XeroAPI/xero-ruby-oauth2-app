@@ -28,6 +28,9 @@ module ApplicationHelper
     }
     @xero_client ||= XeroRuby::ApiClient.new(credentials: creds)
 
+    @xero_client.set_token_set(current_user.token_set)
+
+
     return @xero_client
   end
 
