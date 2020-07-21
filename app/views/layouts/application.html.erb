@@ -71,6 +71,19 @@
             <div class='nav-settings'>
               <%= button_to 'Refresh Token', '/refresh-token', method: :post %>
             </div>
+            <% if current_user.token_set['connections'] %>
+              <% selected = current_user.token_set['connections'].filter{|t| t['tenantId'] == current_user.active_tenant_id }[0] %>
+              <div class='nav-settings'>
+                <%# the disconnect endpoint needs to be passed the connection['id'] - not the connection['tenant_id'] %>
+                <%= button_to 'Disconnect Org', { controller: 'application', action: 'disconnect', connection_id: selected['id'] },  method: :post %>
+              </div>
+              <div class='nav-settings'>
+                <%= form_for 'change_organisation', url: change_organisation_path, method: :post do |f| %>
+                  <%= f.select :active_tenant_id, options_for_select(current_user.token_set['connections'].map{ |c| [c['tenantName'], c['tenantId']] }, selected: selected['tenantId']) %>
+                  <%= f.submit "Change Org" %>
+                <% end %>
+              </div>
+            <% end %>
           <% end %>
         <% end %>
       </header>

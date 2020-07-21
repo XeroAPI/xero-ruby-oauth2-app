@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     # the user has authorized and the most recently connected tenant_id
     current_user.token_set = @token_set if !@token_set["error"]
     current_user.token_set['connections'] = @xero_client.connections
-    current_user.active_tenant_id = current_user.token_set['xero_tenant_id']
+    current_user.active_tenant_id = latest_connection(current_user.token_set['connections'])
     current_user.save!
     flash.notice = "Successfully received Xero Token Set"
   end
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     @token_set = @xero_client.refresh_token_set(current_user.token_set)
     current_user.token_set = @token_set if !@token_set["error"]
     current_user.token_set['connections'] = @xero_client.connections
-    current_user.active_tenant_id = current_user.token_set['connections']
+    current_user.active_tenant_id = latest_connection(current_user.token_set['connections'])
     current_user.save!
     flash.notice = "Successfully Refreshed Token"
     redirect_to root_url
@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   def disconnect
     remaining_connections = @xero_client.disconnect(params[:connection_id])
     current_user.token_set['connections'] = remaining_connections
-    current_user.active_tenant_id = current_user.token_set['connections']
+    current_user.active_tenant_id = latest_connection(current_user.token_set['connections'])
     current_user.save!
     flash.notice = "Removed <strong>#{current_user.active_tenant_id}</strong>"
     redirect_to root_url

@@ -19,6 +19,17 @@ module ApplicationHelper
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 
+
+  def set_token_set_from_file(email)
+    user = User.find_by_email(email)
+    file_contents = File.read(Rails.root + 'app/data/token_set.json')
+    token_set = JSON.parse(JSON.parse(file_contents))
+    user.update!(token_set: token_set)
+    user.update!(active_tenant_id: token_set['xero_tenant_id'])
+  end
+  
+  # helper.set_token_set_from_file('chris.knight@xero.com')
+
   def xero_client
     creds = {
       client_id: ENV['CLIENT_ID'],
@@ -27,9 +38,6 @@ module ApplicationHelper
       scopes: ENV['SCOPES']
     }
     @xero_client ||= XeroRuby::ApiClient.new(credentials: creds)
-
-    @xero_client.set_token_set(current_user.token_set)
-
 
     return @xero_client
   end
