@@ -12,6 +12,12 @@ class AccountingController < ActionController::Base
     @invoice = xero_client.accounting_api.get_invoice(current_user.active_tenant_id, @invoices.first.invoice_id)
   end
 
+  def invoices_create
+    contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts
+    invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: contacts[0].contact_id }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "600", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}
+    @invoices = xero_client.accounting_api.create_invoices(current_user.active_tenant_id, invoices)
+  end
+
   def accounts
     @accounts = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts
   end
@@ -46,6 +52,13 @@ class AccountingController < ActionController::Base
 
   def contacts
     @contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts
+  end
+  
+  def contact_history
+    contacts = { contacts: [{ name: "Bruce Banner #{rand(10000)}", email_address: "hulk@avengers#{rand(10000)}.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH }}}]}
+    contact_response = xero_client.accounting_api.create_contacts(current_user.active_tenant_id, contacts).contacts
+    history_records = { history_records:[ { details: "This contact now has some History #{rand(10000)}" } ]}
+    @contact_history = xero_client.accounting_api.create_contact_history(current_user.active_tenant_id, contact_response[0].contact_id, history_records)
   end
 
   def contactgroups

@@ -20,11 +20,14 @@ Rails.application.routes.draw do
   # accounting routes
   get '/accounts', to: 'accounting#accounts'
   get '/invoices', to: 'accounting#invoices'
+  get '/invoices/create', to: 'accounting#invoices_create'
+
   get '/banktransactions', to: 'accounting#banktransactions'
   get '/banktranfers', to: 'accounting#banktranfers'
   get '/batchpayments', to: 'accounting#batchpayments'
   get '/brandingthemes', to: 'accounting#brandingthemes'
   get '/contacts', to: 'accounting#contacts'
+  get '/contact-history', to: 'accounting#contact_history'
   get '/contactgroups', to: 'accounting#contactgroups'
   get '/creditnotes', to: 'accounting#creditnotes'
   get '/currencies', to: 'accounting#currencies'
