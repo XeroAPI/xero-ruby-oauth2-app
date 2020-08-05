@@ -137,7 +137,6 @@ class AccountingController < ActionController::Base
     @payment_history = xero_client.accounting_api.create_payment_history(current_user.active_tenant_id, payment.payment_id, history_records)
   end
 
-
   def prepayments
     @prepayments = xero_client.accounting_api.get_prepayments(current_user.active_tenant_id).prepayments
   end
