@@ -32,12 +32,12 @@
   
   /* Submenu item*/
   #sidebar-container .list-group .sidebar-submenu a {
-    height: 45px;
-    padding-left: 30px;
+    height: auto;
+    padding: 10px;
     background-color: #292b2c;
   }
   .sidebar-submenu {
-    
+
   }
   
   /* Separators */
@@ -72,8 +72,13 @@
   }
 }
 
-@media only screen and (max-width: 600px) {
-  body {
-    background-color: lightblue;
+@media only screen and (max-width: 800px) {
+  .left-banner, .core-content {
+    min-width: 100%;
+    max-width: none;
+  }
+
+  header {
+    height: 120px !important;
   }
 }

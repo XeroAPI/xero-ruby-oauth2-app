@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>XeroRubyOauth2App</title>
+    <title>xero-ruby sample app</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -44,6 +44,12 @@
                   </a>
                   </a>
                 </div>
+                <div id="account" class="collapse sidebar-submenu" data-parent="#accounting">
+                  <a id="accounting_account_read_all" href="/accounts/create/attachment" class="list-group-item list-group-item-action bg-dark text-white">
+                  <span class="menu-collapsed">Create Account Attachment</span>
+                  </a>
+                  </a>
+                </div>
                 <!-- CONTACTS -->
                 <a href="#contact" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
                   <div class="d-flex w-100 justify-content-start align-items-center">
@@ -72,6 +78,16 @@
                 <div id="invoice" class="collapse sidebar-submenu" data-parent="#accounting">
                   <a id="accounting_invoice_read_all" href="/invoices/create" class="list-group-item list-group-item-action bg-dark text-white">
                   <span class="menu-collapsed">Create</span>
+                  </a>
+                </div>
+                <div id="invoice" class="collapse sidebar-submenu" data-parent="#accounting">
+                  <a id="accounting_invoice_read_all" href="/invoices/pdf" class="list-group-item list-group-item-action bg-dark text-white">
+                  <span class="menu-collapsed">Get Invoice (as PDF)</span>
+                  </a>
+                </div>
+                <div id="invoice" class="collapse sidebar-submenu" data-parent="#accounting">
+                  <a id="accounting_invoice_read_all" href="/invoices/create/attachment" class="list-group-item list-group-item-action bg-dark text-white">
+                  <span class="menu-collapsed">Create Invoice Attachment</span>
                   </a>
                 </div>
                 
@@ -235,8 +251,13 @@
                   </div>
                 </a>
                 <div id="payments" class="collapse sidebar-submenu" data-parent="#accounting">
-                  <a id="accounting_payments_read_all" href="/payment" class="list-group-item list-group-item-action bg-dark text-white">
+                  <a id="accounting_payments_read_all" href="/payments" class="list-group-item list-group-item-action bg-dark text-white">
                   <span class="menu-collapsed">Get (all)</span>
+                  </a>
+                </div>
+                <div id="payments" class="collapse sidebar-submenu" data-parent="#accounting">
+                  <a id="accounting_payments_read_all" href="/payments-history" class="list-group-item list-group-item-action bg-dark text-white">
+                  <span class="menu-collapsed">Create (History)</span>
                   </a>
                 </div>
                 

@@ -1,7 +1,7 @@
 PATH
   remote: /Users/chris.knight/code/sdks/xero-ruby
   specs:
-    xero-ruby (1.2.1)
+    xero-ruby (2.0.0)
       faraday (~> 1.0.1, >= 1.0.1)
       json (~> 2.1, >= 2.1.0)
 
