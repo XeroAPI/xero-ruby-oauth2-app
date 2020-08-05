@@ -9,11 +9,43 @@ class AccountingController < ActionController::Base
   
   def invoices
     @invoices = xero_client.accounting_api.get_invoices(current_user.active_tenant_id).invoices
-    @invoice = xero_client.accounting_api.get_invoice(current_user.active_tenant_id, @invoices.first.invoice_id)
+    @invoice = xero_client.accounting_api.get_invoice(current_user.active_tenant_id, @invoices.first.invoice_id).invoices.first
+  end
+
+  def invoices_create
+    contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts
+    invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: contacts[0].contact_id }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: BigDecimal("20.99"), account_code: "600", tax_type: XeroRuby::Accounting::TaxType::NONE }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}
+    @invoices = xero_client.accounting_api.create_invoices(current_user.active_tenant_id, invoices).invoices
+  end
+
+  def get_invoice_as_pdf
+    invoice = xero_client.accounting_api.get_invoices(current_user.active_tenant_id).invoices.first
+    invoice_pdf = xero_client.accounting_api.get_invoice_as_pdf(current_user.active_tenant_id, invoice.invoice_id)
+    send_file invoice_pdf.path
+  end
+
+  def create_invoice_attachment_by_file_name
+    @invoice = xero_client.accounting_api.get_invoices(current_user.active_tenant_id).invoices.first
+    file_name = "an-invoice-filename.png"
+    opts = {
+      include_online: true # Boolean | Allows an attachment to be seen by the end customer within their online invoice
+    }
+    file = File.read(Rails.root.join('app/assets/images/xero-api.png'))
+    @attachment = xero_client.accounting_api.create_invoice_attachment_by_file_name(current_user.active_tenant_id, @invoice.invoice_id, file_name, file, opts)
   end
 
   def accounts
     @accounts = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts
+  end
+
+  def create_account_attachment_by_file_name
+    @account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts.first
+    file_name = "an-account-filename.png"
+    opts = {
+      include_online: true # Boolean | Allows an attachment to be seen by the end customer within their online invoice
+    }
+    file = File.read(Rails.root.join('app/assets/images/xero-api.png'))
+    @attachment = xero_client.accounting_api.create_account_attachment_by_file_name(current_user.active_tenant_id, @account.account_id, file_name, file, opts)
   end
 
   def banktransactions
@@ -46,6 +78,13 @@ class AccountingController < ActionController::Base
 
   def contacts
     @contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts
+  end
+  
+  def contact_history
+    contacts = { contacts: [{ name: "Bruce Banner #{rand(10000)}", email_address: "hulk@avengers#{rand(10000)}.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH }}}]}
+    contact_response = xero_client.accounting_api.create_contacts(current_user.active_tenant_id, contacts).contacts
+    history_records = { history_records:[ { details: "This contact now has some History #{rand(10000)}" } ]}
+    @contact_history = xero_client.accounting_api.create_contact_history(current_user.active_tenant_id, contact_response[0].contact_id, history_records)
   end
 
   def contactgroups
@@ -90,6 +129,12 @@ class AccountingController < ActionController::Base
 
   def payments
     @payments = xero_client.accounting_api.get_payments(current_user.active_tenant_id).payments
+  end
+
+  def payment_history
+    payment = xero_client.accounting_api.get_payments(current_user.active_tenant_id).payments.first
+    history_records = { history_records:[ { details: "This payment now has some History #{rand(10000)}" } ]}
+    @payment_history = xero_client.accounting_api.create_payment_history(current_user.active_tenant_id, payment.payment_id, history_records)
   end
 
   def prepayments

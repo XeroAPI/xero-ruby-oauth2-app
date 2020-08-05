@@ -32,9 +32,14 @@ module ApplicationHelper
   end
 
   def has_token_set?
-    unless current_user && current_user.token_set
-      redirect_to authorization_url
-      return
+    unless current_user
+      if current_user && current_user.token_set
+        redirect_to authorization_url
+        return
+      else
+        redirect_to '/users/new'
+        return
+      end
     end
   end
 
