@@ -1,8 +1,8 @@
 <% if current_user && current_user.token_set %>
   <h6>Rails session: <u><%= current_user.email %></u></h6>
   <h6>Xero Token Expiry: <u><%= token_expired %></u></h6>
-   <%# <hr> %>
-  <%# <h3>Decoded ID Token</h3>
+  <hr>
+  <h3>Decoded ID Token</h3>
   <%= id_token %>
   <hr>
   <h3>Decoded Access Token</h3>
