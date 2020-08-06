@@ -9,12 +9,12 @@ class AccountingController < ActionController::Base
   
   def invoices
     @invoices = xero_client.accounting_api.get_invoices(current_user.active_tenant_id).invoices
-    @invoice = xero_client.accounting_api.get_invoice(current_user.active_tenant_id, @invoices.first.invoice_id).invoices.first
+    @invoice = xero_client.accounting_api.get_invoice(current_user.active_tenant_id, @invoices.sample.invoice_id).invoices.first
   end
 
   def invoices_create
     contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts
-    invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { ContactId: contacts[0].contact_id }, LineItems: [{ Description: "Acme Tires Desc",  quantity: 32.0, unitAmount: BigDecimal("20.99"), account_code: "600", tax_type: XeroRuby::Accounting::TaxType::NONE }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}
+    invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { ContactId: contacts.sample.contact_id }, LineItems: [{ Description: "Acme Tires Desc",  quantity: 32.0, unitAmount: BigDecimal("20.99"), account_code: "600", tax_type: XeroRuby::Accounting::TaxType::NONE }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}
     @invoices = xero_client.accounting_api.create_invoices(current_user.active_tenant_id, invoices).invoices
   end
 
