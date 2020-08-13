@@ -131,6 +131,33 @@ class AccountingController < ActionController::Base
   def payments
     @payments = xero_client.accounting_api.get_payments(current_user.active_tenant_id).payments
   end
+  
+  def payments_create
+    opts = { 
+      statuses: [XeroRuby::Accounting::Invoice::PAID],
+      where: { amount_due: '=0' }
+    }
+    @invoices = xero_client.accounting_api.get_invoices(current_user.active_tenant_id, opts).invoices
+    # account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts[0]
+    # payments = {
+    #   payments: [
+    #     {
+    #       invoice: { invoice_id: invoice.invoice_id },
+    #       account: { account_id: account.account_id },
+    #       date: "2020-08-05",
+    #       amount: 234303.00
+    #     },
+    #     {
+    #       invoice: { invoice_id: invoice.invoice_id },
+    #       account: { account_id: account.account_id },
+    #       date: "2020-08-05",
+    #       amount: 10803.50
+    #     }
+    #   ]
+    # }
+    
+    # @payments = xero_client.accounting_api.create_payments(current_user.active_tenant_id, payments).payments
+  end
 
   def payment_history
     payment = xero_client.accounting_api.get_payments(current_user.active_tenant_id).payments.first

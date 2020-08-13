@@ -60,6 +60,7 @@ Rails.application.routes.draw do
   get '/paymentservices', to: 'accounting#paymentservices'
 
   get '/payments', to: 'accounting#payments'
+  get '/payments/create', to: 'accounting#payments_create'
   get '/payments-history', to: 'accounting#payment_history'
 
   get '/prepayments', to: 'accounting#prepayments'
