@@ -8,8 +8,13 @@ class AccountingController < ActionController::Base
   # xero_client is setup in application_helper.rb
   
   def invoices
+    opts = { 
+      statuses: [XeroRuby::Accounting::Invoice::AUTHORISED],
+      where: { amount_due: '>0' },
+      if_modified_since: (DateTime.now - 1.year).to_s 
+    }
+    @invoice = xero_client.accounting_api.get_invoices(current_user.active_tenant_id, opts).invoices.first
     @invoices = xero_client.accounting_api.get_invoices(current_user.active_tenant_id).invoices
-    @invoice = xero_client.accounting_api.get_invoice(current_user.active_tenant_id, @invoices.sample.invoice_id).invoices.first
   end
 
   def invoices_create
@@ -133,30 +138,31 @@ class AccountingController < ActionController::Base
   end
   
   def payments_create
-    opts = { 
-      statuses: [XeroRuby::Accounting::Invoice::PAID],
-      where: { amount_due: '=0' }
+    # first find a contact, and create an invoice
+    contact = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts.sample
+    invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: contact.contact_id }, line_items: [{ Description: "Acme Tires Desc",  quantity: 32.0, unit_amount: BigDecimal("20.99"), account_code: "600", tax_type: XeroRuby::Accounting::TaxType::NONE }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::AUTHORISED }]}
+    @invoice = xero_client.accounting_api.create_invoices(current_user.active_tenant_id, invoices).invoices.first
+
+    # then build two payments and create them
+    @account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts[0]
+    payments = {
+      payments: [
+        {
+          invoice: { invoice_id: @invoice.invoice_id },
+          account: { account_id: @account.account_id },
+          date: DateTime.now,
+          amount: (@invoice.amount_due / BigDecimal("2.0")).ceil(2)
+        },
+        {
+          invoice: { invoice_id: @invoice.invoice_id },
+          account: { account_id: @account.account_id },
+          date: DateTime.now,
+          amount: (@invoice.amount_due / BigDecimal("2.0")).floor(2)
+        }
+      ]
     }
-    @invoices = xero_client.accounting_api.get_invoices(current_user.active_tenant_id, opts).invoices
-    # account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts[0]
-    # payments = {
-    #   payments: [
-    #     {
-    #       invoice: { invoice_id: invoice.invoice_id },
-    #       account: { account_id: account.account_id },
-    #       date: "2020-08-05",
-    #       amount: 234303.00
-    #     },
-    #     {
-    #       invoice: { invoice_id: invoice.invoice_id },
-    #       account: { account_id: account.account_id },
-    #       date: "2020-08-05",
-    #       amount: 10803.50
-    #     }
-    #   ]
-    # }
-    
-    # @payments = xero_client.accounting_api.create_payments(current_user.active_tenant_id, payments).payments
+
+    @payments = xero_client.accounting_api.create_payments(current_user.active_tenant_id, payments).payments
   end
 
   def payment_history
