@@ -22,13 +22,14 @@ Rails.application.routes.draw do
   get '/accounts/create/attachment', to: 'accounting#create_account_attachment_by_file_name'
 
   get '/invoices', to: 'accounting#invoices'
+  get '/invoices/recent', to: 'accounting#invoices_recent'
   get '/invoices/create', to: 'accounting#invoices_create'
   get '/invoices/pdf', to: 'accounting#get_invoice_as_pdf'
   get '/invoices/create/attachment', to: 'accounting#create_invoice_attachment_by_file_name'
 
   get '/banktransactions', to: 'accounting#banktransactions'
 
-  get '/banktranfers', to: 'accounting#banktranfers'
+  get '/banktransfers', to: 'accounting#banktransfers'
 
   get '/batchpayments', to: 'accounting#batchpayments'
 
@@ -60,6 +61,7 @@ Rails.application.routes.draw do
   get '/paymentservices', to: 'accounting#paymentservices'
 
   get '/payments', to: 'accounting#payments'
+  get '/payments/create', to: 'accounting#payments_create'
   get '/payments-history', to: 'accounting#payment_history'
 
   get '/prepayments', to: 'accounting#prepayments'
