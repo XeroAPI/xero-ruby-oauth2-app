@@ -22,13 +22,14 @@ Rails.application.routes.draw do
   get '/accounts/create/attachment', to: 'accounting#create_account_attachment_by_file_name'
 
   get '/invoices', to: 'accounting#invoices'
+  get '/invoices/recent', to: 'accounting#invoices_recent'
   get '/invoices/create', to: 'accounting#invoices_create'
   get '/invoices/pdf', to: 'accounting#get_invoice_as_pdf'
   get '/invoices/create/attachment', to: 'accounting#create_invoice_attachment_by_file_name'
 
   get '/banktransactions', to: 'accounting#banktransactions'
 
-  get '/banktranfers', to: 'accounting#banktranfers'
+  get '/banktransfers', to: 'accounting#banktransfers'
 
   get '/batchpayments', to: 'accounting#batchpayments'
 

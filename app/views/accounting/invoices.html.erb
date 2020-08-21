@@ -1,6 +1,9 @@
-<h1>get_invoice</h1>
+<h1>get_invoices (filtered)</h1>
 <%= render partial: "elements", locals: { elements: [@invoice] } %>
 <hr>
-<h1>get_invoices</h1>
+<h1>get_contacts Customer/Supplier contacts</h1>
+<%= render partial: "elements", locals: { elements: [@contacts] } %>
+<hr>
+<h1>get_invoices from those customers</h1>
 <%= render partial: "elements", locals: { elements: @invoices } %>
 

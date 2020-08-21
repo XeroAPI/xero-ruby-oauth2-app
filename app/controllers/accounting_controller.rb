@@ -8,13 +8,41 @@ class AccountingController < ActionController::Base
   # xero_client is setup in application_helper.rb
   
   def invoices
-    opts = { 
+    # Get all Invoices where:
+    # 1) AUTHORSED Invoices
+    # 2) where amount due > 0
+    # 3) modified in the last year
+    get_one_opts = { 
       statuses: [XeroRuby::Accounting::Invoice::AUTHORISED],
       where: { amount_due: '>0' },
-      if_modified_since: (DateTime.now - 1.year).to_s 
+      if_modified_since: (DateTime.now - 1.year).to_s,
     }
-    @invoice = xero_client.accounting_api.get_invoices(current_user.active_tenant_id, opts).invoices.first
-    @invoices = xero_client.accounting_api.get_invoices(current_user.active_tenant_id).invoices
+    @invoice = xero_client.accounting_api.get_invoices(current_user.active_tenant_id, get_one_opts).invoices.first
+    # Get all Contacts where:
+    # 1) Is a Customer
+    # 2) AND also Supplier
+    contact_opts = {
+      where: {
+        is_customer: '==true',
+        is_supplier: '==true',
+      }
+    }
+    @contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id, contact_opts).contacts
+    # Get the Invoices where:
+    # 1) Invoice Contact is one of those customers/suppliers
+    get_all_opts = {
+      contact_ids: [@contacts.map{|c| c.contact_id}]
+    }
+    @invoices = xero_client.accounting_api.get_invoices(current_user.active_tenant_id, get_all_opts).invoices
+  end
+
+  def invoices_recent
+    # Get Invoices touched in the last hour
+    opts = { 
+      if_modified_since: (DateTime.now - 30.minute).to_s,
+    }
+    @invoices = xero_client.accounting_api.get_invoices(current_user.active_tenant_id, opts).invoices
+    render :invoices_create
   end
 
   def invoices_create
@@ -55,22 +83,24 @@ class AccountingController < ActionController::Base
 
   def banktransactions
     opts = {
-      if_modified_since: DateTime.parse('2020-02-06T12:17:43.202-08:00'), # DateTime | Only records created or modified since this timestamp will be returned
-      where: 'Status==\"' + 'ACTIVE' + '\"', # String | Filter by an any element
-      order: 'Type ASC', # String | Order by an any element
+      if_modified_since: (DateTime.now - 1.year).to_s, # DateTime | Only records created or modified since this timestamp will be returned
+      where: { type: %{=="#{XeroRuby::Accounting::BankTransaction::SPEND}"}},
+      order: 'UpdatedDateUtc DESC', # String | Order by an any element
       page: 1, # Integer | Up to 100 bank transactions will be returned in a single API call with line items details
       unitdp: 4 # Integer | e.g. unitdp=4 – (Unit Decimal Places) You can opt in to use four decimal places for unit amounts
     }
-    @bank_transactions = xero_client.accounting_api.get_bank_transactions(current_user.active_tenant_id).bank_transactions
+    @bank_transactions = xero_client.accounting_api.get_bank_transactions(current_user.active_tenant_id, opts).bank_transactions
   end
 
-  def banktranfers
+  def banktransfers
     opts = {
-      if_modified_since: DateTime.parse('2020-02-06T12:17:43.202-08:00'), # DateTime | Only records created or modified since this timestamp will be returned
-      where: 'Status==\"' + "Active" + '\"', # String | Filter by an any element
+      if_modified_since: (DateTime.now - 10.year).to_s, # DateTime | Only records created or modified since this timestamp will be returned
+      where: {
+        amount: "> 999.99"
+      },
       order: 'Amount ASC' # String | Order by an any element
     }
-    @banktranfers = xero_client.accounting_api.get_bank_transfer(current_user.active_tenant_id, '?' + opts.to_query).bank_transfers
+    @banktransfers = xero_client.accounting_api.get_bank_transfers(current_user.active_tenant_id, opts).bank_transfers
   end
 
   def batchpayments
@@ -82,13 +112,17 @@ class AccountingController < ActionController::Base
   end
 
   def contacts
-    @contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts
+    opts = {
+      if_modified_since: (DateTime.now - 10.year).to_s,
+      order: 'UpdatedDateUtc DESC',
+      page: 1
+    }
+    @contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id, opts).contacts
   end
   
   def contact_history
     contacts = { contacts: [{ name: "Bruce Banner #{rand(10000)}", email_address: "hulk@avengers#{rand(10000)}.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "303" }], payment_Terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH }}}]}
     @contact = xero_client.accounting_api.create_contacts(current_user.active_tenant_id, contacts).contacts.first
-    puts "@contact#{@contact.inspect}"
     history_records = { history_records:[ { details: "This contact now has some History #{rand(10000)}" } ]}
     @contact_history = xero_client.accounting_api.create_contact_history(current_user.active_tenant_id, @contact.contact_id, history_records)
   end
@@ -148,14 +182,14 @@ class AccountingController < ActionController::Base
     payments = {
       payments: [
         {
-          invoice: { invoice_id: @invoice.invoice_id },
-          account: { account_id: @account.account_id },
+          invoice: { InvoiceId: @invoice.invoice_id },
+          account: { AccountId: @account.account_id },
           date: DateTime.now,
           amount: (@invoice.amount_due / BigDecimal("2.0")).ceil(2)
         },
         {
-          invoice: { invoice_id: @invoice.invoice_id },
-          account: { account_id: @account.account_id },
+          invoice: { InvoiceId: @invoice.invoice_id },
+          account: { AccountId: @account.account_id },
           date: DateTime.now,
           amount: (@invoice.amount_due / BigDecimal("2.0")).floor(2)
         }
