@@ -101,9 +101,7 @@ class AccountingController < ActionController::Base
         { type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: contact_id }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "600", tax_type: XeroRuby::Accounting::TaxType::NONE} ], bank_account: { code: "090" }}
       ]
     }
-
-    trans = { type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: contact_id }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "600", tax_type: XeroRuby::Accounting::TaxType::NONE} ], bank_account: { code: "090" }}
-    @bank_transactions = xero_client.accounting_api.create_bank_transactions(current_user.active_tenant_id, trans).bank_transactions
+    @bank_transactions = xero_client.accounting_api.create_bank_transactions(current_user.active_tenant_id, bank_transactions).bank_transactions
   end
 
   def banktransfers
