@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get '/invoices/create/attachment', to: 'accounting#create_invoice_attachment_by_file_name'
 
   get '/banktransactions', to: 'accounting#banktransactions'
+  get '/banktransactions/create', to: 'accounting#banktransactions_create'
 
   get '/banktransfers', to: 'accounting#banktransfers'
 
