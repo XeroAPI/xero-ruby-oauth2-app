@@ -4,6 +4,8 @@ module ApplicationHelper
   def token_expired
     token_expiry = Time.at(access_token['exp'])
     exp_text = time_ago_in_words(token_expiry)
+    puts "token_expiry #{token_expiry}"
+    puts "Time.now #{Time.now}"    
     token_expiry > Time.now ? "in #{exp_text}" : "#{exp_text} ago" 
   end
 
