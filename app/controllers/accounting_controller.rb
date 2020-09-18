@@ -222,7 +222,12 @@ class AccountingController < ActionController::Base
   end
 
   def purchaseorders
-    @purchaseorders = xero_client.accounting_api.get_purchase_orders(current_user.active_tenant_id).purchase_orders
+    opts = {
+      status: XeroRuby::Accounting::PurchaseOrder::AUTHORISED,
+      if_modified_since: (DateTime.now - 3.year).to_s,
+      order: 'DeliveryDate'
+    }
+    @purchaseorders = xero_client.accounting_api.get_purchase_orders(current_user.active_tenant_id, opts).purchase_orders
   end
 
   def quotes
