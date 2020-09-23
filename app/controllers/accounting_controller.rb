@@ -8,23 +8,24 @@ class AccountingController < ActionController::Base
   # xero_client is setup in application_helper.rb
   
   def invoices
-    # Get all Invoices where:
-    # 1) AUTHORSED Invoices
-    # 2) where amount due > 0
-    # 3) modified in the last year
     get_one_opts = { 
-      statuses: [XeroRuby::Accounting::Invoice::AUTHORISED],
-      where: { amount_due: '>0' },
-      if_modified_since: (DateTime.now - 1.year).to_s,
+      # statuses: [XeroRuby::Accounting::Invoice::AUTHORISED],
+      where: {
+        # type: ['==', XeroRuby::Accounting::Invoice::PAID],
+        amount_due: ['>=', 0]
+      },
+      if_modified_since: (DateTime.now - 10.year).to_s
     }
+    
     @invoice = xero_client.accounting_api.get_invoices(current_user.active_tenant_id, get_one_opts).invoices.first
+    puts "@invoice: #{@invoice}"
     # Get all Contacts where:
     # 1) Is a Customer
     # 2) AND also Supplier
     contact_opts = {
       where: {
-        is_customer: '==true',
-        is_supplier: '==true',
+        is_customer: ['==', true],
+        is_supplier: ['==', true],
       }
     }
     @contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id, contact_opts).contacts
@@ -83,8 +84,10 @@ class AccountingController < ActionController::Base
 
   def banktransactions
     opts = {
-      if_modified_since: (DateTime.now - 1.year).to_s, # DateTime | Only records created or modified since this timestamp will be returned
-      where: { type: %{=="#{XeroRuby::Accounting::BankTransaction::SPEND}"}},
+      if_modified_since: (DateTime.now - 6.month).to_s, # DateTime | Only records created or modified since this timestamp will be returned
+      where: {
+        type: ['==', XeroRuby::Accounting::BankTransaction::SPEND]
+      },
       order: 'UpdatedDateUtc DESC', # String | Order by an any element
       page: 1, # Integer | Up to 100 bank transactions will be returned in a single API call with line items details
       unitdp: 4 # Integer | e.g. unitdp=4 – (Unit Decimal Places) You can opt in to use four decimal places for unit amounts
@@ -108,7 +111,7 @@ class AccountingController < ActionController::Base
     opts = {
       if_modified_since: (DateTime.now - 10.year).to_s, # DateTime | Only records created or modified since this timestamp will be returned
       where: {
-        amount: "> 999.99"
+        amount: [">=" , 999.99]
       },
       order: 'Amount ASC' # String | Order by an any element
     }
@@ -254,5 +257,4 @@ class AccountingController < ActionController::Base
   def users
     @users = xero_client.accounting_api.get_users(current_user.active_tenant_id).users
   end
-
 end
