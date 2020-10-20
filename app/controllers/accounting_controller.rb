@@ -70,6 +70,17 @@ class AccountingController < ActionController::Base
   def accounts
     @accounts = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts
   end
+  
+  def accounts_filtered
+    opts = {
+      page: 1,
+      where: {
+        type: ["==", XeroRuby::Accounting::Account::EXPENSE],
+        code: ['==', '10061']
+      }
+    }
+    @accounts = xero_client.accounting_api.get_accounts(current_user.active_tenant_id, opts).accounts
+  end
 
   def create_account_attachment_by_file_name
     @account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts.first
@@ -84,7 +95,7 @@ class AccountingController < ActionController::Base
   def banktransactions
     opts = {
       if_modified_since: (DateTime.now - 1.year).to_s, # DateTime | Only records created or modified since this timestamp will be returned
-      where: { type: %{=="#{XeroRuby::Accounting::BankTransaction::SPEND}"}},
+      where: { type: ['=', XeroRuby::Accounting::BankTransaction::SPEND]},
       order: 'UpdatedDateUtc DESC', # String | Order by an any element
       page: 1, # Integer | Up to 100 bank transactions will be returned in a single API call with line items details
       unitdp: 4 # Integer | e.g. unitdp=4 – (Unit Decimal Places) You can opt in to use four decimal places for unit amounts

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   # accounting routes
   get '/accounts', to: 'accounting#accounts'
+  get '/accounts-filtered', to: 'accounting#accounts_filtered'  
   get '/accounts/create/attachment', to: 'accounting#create_account_attachment_by_file_name'
 
   get '/invoices', to: 'accounting#invoices'
