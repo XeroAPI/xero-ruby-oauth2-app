@@ -24,12 +24,12 @@ Rails.application.routes.draw do
 
   get '/invoices', to: 'accounting#invoices'
   get '/invoices_recent', to: 'accounting#invoices_recent'
-  get '/invoices/create', to: 'accounting#invoices_create'
+  get '/invoices_create', to: 'accounting#invoices_create'
   get '/get_invoice_as_pdf', to: 'accounting#get_invoice_as_pdf'
   get '/create_invoice_attachment_by_file_name', to: 'accounting#create_invoice_attachment_by_file_name'
 
   get '/banktransactions', to: 'accounting#banktransactions'
-  get '/banktransactions/create', to: 'accounting#banktransactions_create'
+  get '/banktransactions_create', to: 'accounting#banktransactions_create'
 
   get '/banktransfers', to: 'accounting#banktransfers'
 
@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   get '/brandingthemes', to: 'accounting#brandingthemes'
 
   get '/contacts', to: 'accounting#contacts'
-  get '/contact-history', to: 'accounting#contact_history'
+  get '/contact_history', to: 'accounting#contact_history'
 
   get '/contactgroups', to: 'accounting#contactgroups'
 
@@ -52,7 +52,7 @@ Rails.application.routes.draw do
 
   get '/journals', to: 'accounting#journals'
 
-  get '/linked-transactions', to: 'accounting#linked_transactions'
+  get '/linked_transactions', to: 'accounting#linked_transactions'
 
   get '/manualjournals', to: 'accounting#manualjournals'
 
@@ -63,8 +63,8 @@ Rails.application.routes.draw do
   get '/paymentservices', to: 'accounting#paymentservices'
 
   get '/payments', to: 'accounting#payments'
-  get '/payments/create', to: 'accounting#payments_create'
-  get '/payments-history', to: 'accounting#payment_history'
+  get '/payments_create', to: 'accounting#payments_create'
+  get '/payments_history', to: 'accounting#payment_history'
 
   get '/prepayments', to: 'accounting#prepayments'
 
