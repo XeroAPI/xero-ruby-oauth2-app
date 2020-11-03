@@ -105,11 +105,24 @@ class AccountingController < ActionController::Base
 
   def banktransactions_create
     contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts
+    opts = {
+      where: {
+        type: ["==", XeroRuby::Accounting::Account::BANK]
+      }
+    }
+    bank_account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id, opts).accounts.sample
+    opts_2 = {
+      where: {
+        type: ["==", XeroRuby::Accounting::Account::REVENUE]
+      }
+    }
+    account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id, opts_2).accounts.sample
+    bank_account_code = bank_account.code
     contact_id = contacts.first.contact_id
     bank_transactions = {
       bank_transactions: [
-        { type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: contact_id }, line_items: [{ description: "This is the first", quantity: 1.0, unit_amount: 203.0, account_code: "600", tax_type: XeroRuby::Accounting::TaxType::NONE} ], bank_account: { code: "090" }},
-        { type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: contact_id }, line_items: [{ description: "This is the second", quantity: 2.0, unit_amount: 180.0, account_code: "600", tax_type: XeroRuby::Accounting::TaxType::NONE} ], bank_account: { code: "090" }}
+        { type: XeroRuby::Accounting::BankTransaction::SPEND, bank_account: { code: bank_account_code }, contact: { contact_id: contact_id }, line_items: [{ description: "This is the first", quantity: 1.0, unit_amount: 203.0, account_code: account.code, tax_type: account.tax_type } ]},
+        { type: XeroRuby::Accounting::BankTransaction::SPEND, bank_account: { code: bank_account_code }, contact: { contact_id: contact_id }, line_items: [{ description: "This is the second", quantity: 2.0, unit_amount: 180.0, account_code: account.code, tax_type: account.tax_type }]}
       ]
     }
     @bank_transactions = xero_client.accounting_api.create_bank_transactions(current_user.active_tenant_id, bank_transactions).bank_transactions

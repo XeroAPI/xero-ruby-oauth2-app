@@ -1,0 +1,321 @@
+<!--ACCOUNTING BUTTON -->
+<a id="accounting_menu" href="#accounting" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+  <div class="d-flex w-100 justify-content-start align-items-center">
+    <span class="menu-collapsed">Accounting</span>
+  </div>
+</a>
+<!-- ACCOUNTING SUBMENU-->
+<div id="accounting" class="collapse sidebar-submenu <%= controller_name === 'accounting' ? 'show' : '' %>" data-parent="#sidebar-container">
+  <a href="#accounts" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <!-- ACCOUNTS -->
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Accounts</span>
+    </div>
+  </a>
+  <div id="accounts" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_account_read_all" href="/accounts" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <div id="accounts" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounts_filtered" href="/accounts_filtered" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (filtered)</span>
+    </a>
+  </div>
+  
+  <div id="accounts" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="create_account_attachment_by_file_name" href="/create_account_attachment_by_file_name" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Create Account Attachment</span>
+    </a>
+  </div>
+  <!-- CONTACTS -->
+  <a href="#contacts" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Contacts</span>
+    </div>
+  </a>
+  <div id="contacts" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_contact_create" href="/contacts" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+    <a id="accounting_contact_create_multiple" href="/contact_history" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Create (history)</span>
+    </a>
+  </div>
+  <!-- INVOICE -->
+  <a href="#invoices" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Invoices</span>
+    </div>
+  </a>
+  <div id="invoices" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_invoice_read_all" href="/invoices" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <div id="invoices" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_invoice_read_recent" href="/invoices_recent" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (Recent)</span>
+    </a>
+  </div>
+  <div id="invoices" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_invoice_create" href="/invoices_create" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Create</span>
+    </a>
+  </div>
+  <div id="invoices" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_invoice_get_as_pdf" href="/get_invoice_as_pdf" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get Invoice (as PDF)</span>
+    </a>
+  </div>
+  <div id="invoices" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_invoice_create_attachment" href="/accounting_invoice_create_attachment`" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Create Invoice Attachment</span>
+    </a>
+  </div>
+  <a href="#banktransactions" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Bank Transactions</span>
+    </div>
+  </a>
+  <div id="banktransactions" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_banktransactions_read_all" href="/banktransactions" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <div id="banktransactions" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_banktransactions_create" href="/banktransactions_create" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Create</span>
+    </a>
+  </div>
+  <a href="#banktransfers" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Bank Transfers</span>
+    </div>
+  </a>
+  <div id="banktransfers" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_banktransfers_read_all" href="/banktransfers" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#batchpayment" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Batch Payments</span>
+    </div>
+  </a>
+  <div id="batchpayments" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_batchpayments_read_all" href="/batchpayments" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#brandingthemes" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Branding Themes</span>
+    </div>
+  </a>
+  <div id="brandingthemes" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_brandingthemes_read_all" href="/brandingthemes" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#contactgroups" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Contact groups</span>
+    </div>
+  </a>
+  <div id="contactgroups" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_contactgroups_read_all" href="/contactgroups" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#creditnotes" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Credit notes</span>
+    </div>
+  </a>
+  <div id="creditnotes" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_creditnotes_read_all" href="/creditnotes" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#currencies" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Currencies</span>
+    </div>
+  </a>
+  <div id="currencies" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_currencies_read_all" href="/currencies" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#employees" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Employees</span>
+    </div>
+  </a>
+  <div id="employees" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_employee_read_all" href="/employees" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#items" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Items</span>
+    </div>
+  </a>
+  <div id="items" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_items_read_all" href="/items" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#journals" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Journals</span>
+    </div>
+  </a>
+  <div id="journals" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_journals_read_all" href="/journals" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#linkedtransactions" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Linked Transactions</span>
+    </div>
+  </a>
+  <div id="linkedtransactions" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_linked_transaction_read_all" href="/linked_transactions" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#manualjournals" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Manual Journals</span>
+    </div>
+  </a>
+  <div id="manualjournals" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_manualjournals_read_all" href="/manualjournals" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#orgs" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Organisation</span>
+    </div>
+  </a>
+  <div id="orgs" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_organisatio_read_all" href="/organisations" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#overpayments" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Over payments</span>
+    </div>
+  </a>
+  <div id="overpayments" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_overpayments_read_all" href="/overpayments" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#payments" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Payments</span>
+    </div>
+  </a>
+  <div id="payments" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_payments_read_all" href="/payments" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <div id="payments" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_payments_create_all" href="/payments_create" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Create (payments)</span>
+    </a>
+  </div>
+  <div id="payments" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_payments_create_history_all" href="/payments_history" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Create (History)</span>
+    </a>
+  </div>
+  <a href="#prepayments" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Pre Payments</span>
+    </div>
+  </a>
+  <div id="prepayments" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_prepayments_read_all" href="/prepayments" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#purchaseorders" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Purchase Orders</span>
+    </div>
+  </a>
+  <div id="purchaseorders" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_purchaseorders_read_all" href="/purchaseorders" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#quotes" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Quotes</span>
+    </div>
+  </a>
+  <div id="quotes" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_quotes_read_all" href="/quote" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#receipts" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Receipts</span>
+    </div>
+  </a>
+  <div id="receipts" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_receipt_read_all" href="/receipt" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#reports" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Reports</span>
+    </div>
+  </a>
+  <div id="reports" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_report_read_all" href="/report" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#taxrates" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Tax Rates</span>
+    </div>
+  </a>
+  <div id="taxrates" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_taxrates_read_all" href="/taxrates" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#trackingcategories" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Tracking Categories</span>
+    </div>
+  </a>
+  <div id="trackingcategories" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_tracking_categories_read_all" href="/trackingcategories" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <a href="#users" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Users</span>
+    </div>
+  </a>
+  <div id="users" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_tracking_categories_read_all" href="/users" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+</div>

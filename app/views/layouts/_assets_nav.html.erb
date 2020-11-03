@@ -1,0 +1,20 @@
+<!-- ASSETS BUTTON -->
+<a id="assets_menu" href="#assets" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+  <div class="d-flex w-100 justify-content-start align-items-center">
+    <span class="menu-collapsed">Assets</span>
+  </div>
+</a>
+<!-- ASSETS SUBMENU-->
+<div id="assets" class="collapse sidebar-submenu <%= controller_name === 'assets' ? 'show' : '' %>" data-parent="#sidebar-container" >
+  <a href="#asset" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <!-- ASSETS -->
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Assets</span>
+    </div>
+  </a>
+  <div id="asset" class="collapse sidebar-submenu" data-parent="#assets">
+    <a id="assets_asset_read_all" href="/assets" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+</div>

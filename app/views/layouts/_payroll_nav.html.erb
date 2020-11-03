@@ -1,0 +1,43 @@
+<!-- PAYROLL BUTTON -->
+<a id="payroll_menu" href="#payroll" data-toggle="collapse"  aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+  <div class="d-flex w-100 justify-content-start align-items-center">
+    <span class="menu-collapsed">Payroll</span>
+  </div>
+</a>
+
+<!-- payroll SUBMENU -->
+<div id="payroll" class="collapse sidebar-submenu <%= controller_name.include?('payroll') ? 'show' : '' %>" data-parent="#sidebar-container">
+  <a href="#payroll-au" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <!-- PAYROLL AU -->
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Payroll (AU)</span>
+    </div>
+  </a>
+  <div id="payroll-au" class="collapse sidebar-submenu" data-parent="#payroll">
+    <a id="payroll_employees_au" href="/payroll/employees/au" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Get Employees</span>
+    </a>
+  </div>
+  <!-- PAYROLL NZ -->
+  <a href="#payroll-nz" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Payroll (NZ)</span>
+    </div>
+  </a>
+  <div id="payroll-nz" class="collapse sidebar-submenu" data-parent="#payroll">
+    <a id="payroll_employees_nz" href="/payroll/employees/nz" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Get Employees</span>
+    </a>
+  </div>
+  <!-- PAYROLL UK -->
+  <a href="#payroll-uk" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Payroll (UK)</span>
+    </div>
+  </a>
+  <div id="payroll-uk" class="collapse sidebar-submenu" data-parent="#payroll">
+    <a id="payroll_employees_uk" href="/payroll/employees/uk" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Get Employees</span>
+    </a>
+  </div>
+</div>
