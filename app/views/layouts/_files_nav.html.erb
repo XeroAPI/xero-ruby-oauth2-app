@@ -1,0 +1,115 @@
+<!-- files BUTTON -->
+<a id="files_menu" href="#files" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+  <div class="d-flex w-100 justify-content-start align-items-center">
+    <span class="menu-collapsed">Files</span>
+  </div>
+</a>
+<!-- FILES SUBMENU -->
+<div id="files" data-parent="#sidebar-container" class="collapse sidebar-submenu <%= controller_name === 'files' ? 'show' : '' %>"> 
+  <a href="#files-all" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <!-- FILES -->
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Files</span>
+    </div>
+  </a>
+  <div id="files-all" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="files_project_read_all" href="/get_files" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <div id="files-all" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="files_project_read_one" href="/get_file" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Get (one)</span>
+    </a>
+  </div>
+  <div id="files-all" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="upload_file" href="/upload_file" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Upload</span>
+    </a>
+  </div>
+  <div id="files-all" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="get_file_content" href="/get_file_content" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Download</span>
+    </a>
+  </div>
+  <div id="files-all" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="update_file" href="/update_file" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Update</span>
+    </a>
+  </div>
+  <div id="files-all" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="delete_file" href="/delete_file" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Delete</span>
+    </a>
+  </div>
+
+  <a href="#folders_all" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <!-- FOLDERS -->
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Folders</span>
+    </div>
+  </a>
+
+  <div id="folders_all" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="get_folder" href="/get_folder" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Get (one)</span>
+    </a>
+  </div>
+
+  <div id="folders_all" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="get_folders" href="/get_folders" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+
+  <div id="folders_all" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="create_folder" href="/create_folder" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Create</span>
+    </a>
+  </div>
+
+  <div id="folders_all" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="update_folder" href="/update_folder" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Update</span>
+    </a>
+  </div>
+
+  <div id="folders_all" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="delete_folder" href="/delete_folder" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Delete</span>
+    </a>
+  </div>
+
+  <div id="folders_all" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="get_inbox" href="/get_inbox" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Get (inbox)</span>
+    </a>
+  </div>
+  
+  <!-- ASSOCIATION -->
+  <a href="#association" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Associations</span>
+    </div>
+  </a>
+  <div id="association" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="get_file_associations" href="/get_file_associations" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Get (all)</span>
+    </a>
+  </div>
+  <div id="association" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="get_associations_by_object" href="/get_associations_by_object" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Get (by object)</span>
+    </a>
+  </div>
+  <div id="association" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="create_file_association" href="/create_file_association" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Create</span>
+    </a>
+  </div>
+  <div id="association" class="collapse sidebar-submenu" data-parent="#files">
+    <a id="delete_file_association" href="/delete_file_association" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Delete</span>
+    </a>
+  </div>
+</div>
