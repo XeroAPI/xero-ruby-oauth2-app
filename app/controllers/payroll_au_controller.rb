@@ -8,4 +8,8 @@ class PayrollAuController < ActionController::Base
   def employees
     @employees = xero_client.payroll_au_api.get_employees(current_user.active_tenant_id).employees
   end
+
+  def timesheets
+    @timesheets = xero_client.payroll_au_api.get_timesheets(current_user.active_tenant_id).timesheets
+  end
 end

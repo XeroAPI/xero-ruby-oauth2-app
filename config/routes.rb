@@ -110,6 +110,7 @@ Rails.application.routes.draw do
 
   # payroll routes
   get '/payroll/employees/au', to: 'payroll_au#employees'
+  get '/payroll/timesheets/au', to: 'payroll_au#timesheets'
   get '/payroll/employees/nz', to: 'payroll_nz#employees'
   get '/payroll/employees/uk', to: 'payroll_uk#employees'
 end
