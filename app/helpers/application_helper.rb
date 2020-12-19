@@ -54,7 +54,7 @@ module ApplicationHelper
   end
 
   def latest_connection(connections)
-    if connections.length
+    if !connections.empty?
       connections.sort { |a,b|
         DateTime.parse(a['updatedDateUtc']) <=> DateTime.parse(b['updatedDateUtc'])
       }.first['tenantId']

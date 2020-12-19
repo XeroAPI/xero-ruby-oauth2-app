@@ -40,8 +40,13 @@ class FilesController < ActionController::Base
   end
 
   def update_file
-    @file = xero_client.files_api.update_file(current_user.active_tenant_id, get_files.sample.id)
-    binding.pry
+    file = get_files.sample
+    opts = {
+      file_object: {
+        name: file.name + ' Updated'
+      }
+    }
+    @file = xero_client.files_api.update_file(current_user.active_tenant_id, file.id, opts)
   end
 
   def delete_file
@@ -95,15 +100,16 @@ class FilesController < ActionController::Base
   end
 
   def update_folder
+    folder = create_folder
     folder_updates = {
-      name: "New name who dis"
+      name: folder.name + ' (updated)'
     }
-    folder = get_folders.last
     @folder = xero_client.files_api.update_folder(current_user.active_tenant_id, folder.id, folder_updates)
   end
 
   def delete_folder
-    @delete_folder = xero_client.files_api.delete_folder(current_user.active_tenant_id)
+    folder = create_folder
+    @delete_folder = xero_client.files_api.delete_folder(current_user.active_tenant_id, folder.id)
   end
 
   def get_inbox

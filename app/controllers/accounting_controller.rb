@@ -143,6 +143,48 @@ class AccountingController < ActionController::Base
     @batchpayments = xero_client.accounting_api.get_batch_payments(current_user.active_tenant_id).batch_payments
   end
 
+  def batchpayments_create
+    account_opts = {
+      where: {
+        type: ["==", XeroRuby::Accounting::Account::BANK]
+      }
+    }
+    account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id, account_opts).accounts.sample
+    contact = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts.sample
+    org = xero_client.accounting_api.get_organisations(current_user.active_tenant_id).organisations
+    currency = org.first.base_currency
+    invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, currency: currency, contact: { contact_id: contact.contact_id }, line_items: [{ Description: "Acme Tires Desc",  quantity: 32.0, unit_amount: BigDecimal("20.99"), account_code: "600", tax_type: XeroRuby::Accounting::TaxType::INPUT }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::AUTHORISED }]}
+    invoice = xero_client.accounting_api.create_invoices(current_user.active_tenant_id, invoices).invoices.first
+    
+    batch_payments = {
+      batch_payments: [
+        {
+          account: {
+            account_id: account.account_id
+          }, 
+          reference: "my-ref-#{rand(100)}",
+          date: DateTime.now,
+          payments: [
+            { 
+              account: { 
+                code: account.code 
+              }, 
+              date: DateTime.now,
+              amount: (invoice.amount_due / BigDecimal("2.0")).ceil(2), 
+              invoice: { 
+                invoice_id: invoice.invoice_id,
+                line_items: [], 
+                contact: {}, 
+                type: XeroRuby::Accounting::Invoice::ACCPAY
+              }
+            }
+          ]
+        }
+      ]
+    }
+    @batchpayments = xero_client.accounting_api.create_batch_payment(current_user.active_tenant_id, batch_payments).batch_payments
+  end
+
   def brandingthemes
     @brandingthemes = xero_client.accounting_api.get_branding_themes(current_user.active_tenant_id).branding_themes
   end
@@ -231,7 +273,6 @@ class AccountingController < ActionController::Base
         }
       ]
     }
-
     @payments = xero_client.accounting_api.create_payments(current_user.active_tenant_id, payments).payments
   end
 

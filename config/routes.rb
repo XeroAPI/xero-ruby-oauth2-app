@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   get '/invoices_recent', to: 'accounting#invoices_recent'
   get '/invoices_create', to: 'accounting#invoices_create'
   get '/get_invoice_as_pdf', to: 'accounting#get_invoice_as_pdf'
-  get '/create_invoice_attachment_by_file_name', to: 'accounting#create_invoice_attachment_by_file_name'
+  get '/accounting_invoice_create_attachment', to: 'accounting#create_invoice_attachment_by_file_name'
 
   get '/banktransactions', to: 'accounting#banktransactions'
   get '/banktransactions_create', to: 'accounting#banktransactions_create'
@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   get '/banktransfers', to: 'accounting#banktransfers'
 
   get '/batchpayments', to: 'accounting#batchpayments'
+  get '/batchpayments_create', to: 'accounting#batchpayments_create'
 
   get '/brandingthemes', to: 'accounting#brandingthemes'
 
