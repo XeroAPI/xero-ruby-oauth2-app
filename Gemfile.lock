@@ -1,10 +1,3 @@
-PATH
-  remote: /Users/chris.knight/code/sdks/xero-ruby
-  specs:
-    xero-ruby (2.5.0)
-      faraday (~> 1.0.1, >= 1.0.1)
-      json (~> 2.1, >= 2.1.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -95,8 +88,9 @@ GEM
       dotenv (= 2.7.6)
       railties (>= 3.2)
     erubi (1.10.0)
-    faraday (1.0.1)
+    faraday (1.1.0)
       multipart-post (>= 1.2, < 3)
+      ruby2_keywords
     ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -169,6 +163,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     regexp_parser (1.8.2)
+    ruby2_keywords (0.0.2)
     ruby_dep (1.5.0)
     rubyzip (2.3.0)
     sass-rails (6.0.0)
@@ -220,6 +215,9 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    xero-ruby (2.5.1)
+      faraday (~> 1.0, >= 1.0.1)
+      json (~> 2.1, >= 2.1.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.4.2)
@@ -251,7 +249,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   webdrivers
   webpacker (~> 4.0)
-  xero-ruby!
+  xero-ruby
 
 RUBY VERSION
    ruby 2.7.0p0

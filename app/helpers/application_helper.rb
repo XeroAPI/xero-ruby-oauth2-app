@@ -20,13 +20,13 @@ module ApplicationHelper
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
-
   def xero_client
     creds = {
       client_id: ENV['CLIENT_ID'],
       client_secret: ENV['CLIENT_SECRET'],
       redirect_uri: ENV['REDIRECT_URI'],
-      scopes: ENV['SCOPES']
+      scopes: ENV['SCOPES'],
+      state: 'referral=my-campaign'
     }
     @xero_client ||= XeroRuby::ApiClient.new(credentials: creds)
 
