@@ -26,7 +26,7 @@ module ApplicationHelper
       client_secret: ENV['CLIENT_SECRET'],
       redirect_uri: ENV['REDIRECT_URI'],
       scopes: ENV['SCOPES'],
-      state: 'referral=my-campaign'
+      state: 'this is area for customer state param'
     }
     @xero_client ||= XeroRuby::ApiClient.new(credentials: creds)
 
