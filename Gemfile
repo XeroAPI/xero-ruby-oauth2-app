@@ -40,5 +40,4 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'jwt'
-# gem 'xero-ruby'
-gem 'xero-ruby', path: '\Users\jason.rising\github\xero-ruby'
+gem 'xero-ruby'
