@@ -1,3 +1,10 @@
+PATH
+  remote: c:/Users/jason.rising/github/xero-ruby
+  specs:
+    xero-ruby (2.6.0)
+      faraday (~> 1.0, >= 1.0.1)
+      json (~> 2.1, >= 2.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -94,6 +101,7 @@ GEM
       ruby2_keywords
     faraday-net_http (1.0.1)
     ffi (1.14.2)
+    ffi (1.14.2-x64-mingw32)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.8.7)
@@ -119,10 +127,13 @@ GEM
     mini_portile2 (2.5.0)
     minitest (5.14.3)
     msgpack (1.3.3)
+    msgpack (1.3.3-x64-mingw32)
     multipart-post (2.1.1)
     nio4r (2.5.4)
     nokogiri (1.11.1)
       mini_portile2 (~> 2.5.0)
+      racc (~> 1.4)
+    nokogiri (1.11.1-x64-mingw32)
       racc (~> 1.4)
     pry (0.13.1)
       coderay (~> 1.1)
@@ -174,6 +185,8 @@ GEM
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
       ffi (~> 1.9)
+    sassc (2.4.0-x64-mingw32)
+      ffi (~> 1.9)
     sassc-rails (2.1.2)
       railties (>= 4.0.0)
       sassc (>= 2.0)
@@ -203,6 +216,8 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2020.6)
+      tzinfo (>= 1.0.0)
     web-console (4.1.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -219,15 +234,13 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    xero-ruby (2.5.1)
-      faraday (~> 1.0, >= 1.0.1)
-      json (~> 2.1, >= 2.1.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.4.2)
 
 PLATFORMS
   ruby
+  x64-mingw32
 
 DEPENDENCIES
   bcrypt (~> 3.1.7)
@@ -253,7 +266,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   webdrivers
   webpacker (~> 4.0)
-  xero-ruby
+  xero-ruby!
 
 RUBY VERSION
    ruby 2.7.0p0

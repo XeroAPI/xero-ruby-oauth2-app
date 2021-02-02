@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.0'
+ruby '>= 2.7.0'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.2'
 gem 'sqlite3'
 gem 'puma', '~> 4.3'
@@ -40,4 +40,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'jwt'
-gem 'xero-ruby'
+# gem 'xero-ruby'
+gem 'xero-ruby', path: '\Users\jason.rising\github\xero-ruby'

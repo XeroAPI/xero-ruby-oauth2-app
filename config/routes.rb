@@ -12,8 +12,9 @@ Rails.application.routes.draw do
   
   ## Xero 
   # authentication routes
-  get '/callback', to: 'application#callback'
+  get '/auth/callback', to: 'application#callback'
   post '/refresh-token', to: 'application#refresh_token'
+  post '/revoke-token', to: 'application#revoke_token'
   post '/change_organisation', to: 'application#change_organisation'
   post '/disconnect', to: 'application#disconnect'
 
