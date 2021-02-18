@@ -76,7 +76,7 @@ class AccountingController < ActionController::Base
       page: 1,
       where: {
         type: ["==", XeroRuby::Accounting::Account::EXPENSE],
-        code: ['==', '10061']
+        # code: ['==', '498']
       }
     }
     @accounts = xero_client.accounting_api.get_accounts(current_user.active_tenant_id, opts).accounts
@@ -193,7 +193,10 @@ class AccountingController < ActionController::Base
     opts = {
       if_modified_since: (DateTime.now - 10.year).to_s,
       order: 'UpdatedDateUtc DESC',
-      page: 1
+      page: 1,
+      where: {
+        email_address: '!=null&&EmailAddress.StartsWith("chris.knight@")'
+      }
     }
     @contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id, opts).contacts
   end
@@ -289,7 +292,7 @@ class AccountingController < ActionController::Base
   def purchaseorders
     opts = {
       status: XeroRuby::Accounting::PurchaseOrder::AUTHORISED,
-      if_modified_since: (DateTime.now - 3.year).to_s,
+      if_modified_since: (DateTime.now - 10.year).to_s,
       order: 'DeliveryDate'
     }
     @purchaseorders = xero_client.accounting_api.get_purchase_orders(current_user.active_tenant_id, opts).purchase_orders

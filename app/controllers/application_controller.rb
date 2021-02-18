@@ -28,6 +28,14 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
 
+  def revoke_token
+    @xero_client.revoke_token(current_user.token_set)
+    current_user.token_set = nil
+    current_user.save!
+    flash.notice = "Successfully Revoked Token"
+    redirect_to root_url
+  end
+
   def change_organisation
     current_user.active_tenant_id = params['change_organisation']['active_tenant_id']
     current_user.save!

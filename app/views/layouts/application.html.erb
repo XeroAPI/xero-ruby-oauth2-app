@@ -50,6 +50,9 @@
           </div>
           <% if current_user.token_set %>
             <div class='nav-settings'>
+              <%= button_to 'Revoke Token', { controller: 'application', action: 'revoke_token' },  method: :post %>
+            </div>
+            <div class='nav-settings'>
               <%= button_to 'Refresh Token', '/refresh-token', method: :post %>
             </div>
             <% if current_user.token_set['connections'] && current_user.active_tenant_id %>
