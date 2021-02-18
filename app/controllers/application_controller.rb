@@ -9,10 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   def callback
-    puts "params #{params}"
     @token_set = @xero_client.get_token_set_from_callback(params)
-
-    puts "@token_set: #{@token_set}"
     # you can use `@xero_client.connections` to fetch info about which orgs
     # the user has authorized and the most recently connected tenant_id
     current_user.token_set = @token_set if !@token_set["error"]
@@ -33,7 +30,6 @@ class ApplicationController < ActionController::Base
 
   def revoke_token
     @xero_client.revoke_token(current_user.token_set)
-
     current_user.token_set = nil
     current_user.save!
     flash.notice = "Successfully Revoked Token"
