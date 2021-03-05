@@ -77,6 +77,7 @@ Rails.application.routes.draw do
   get '/receipts', to: 'accounting#receipts'
 
   get '/reports', to: 'accounting#reports'
+  get '/get_report_profit_and_loss', to: 'accounting#get_report_profit_and_loss'
 
   get '/taxrates', to: 'accounting#taxrates'
 

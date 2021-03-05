@@ -230,6 +230,8 @@ class AccountingController < ActionController::Base
 
   def journals
     @journals = xero_client.accounting_api.get_journals(current_user.active_tenant_id).journals
+    @assets = xero_client.asset_api.get_assets(current_user.active_tenant_id, 'DRAFT').items
+    -fail
   end
 
   def linked_transactions
@@ -309,6 +311,19 @@ class AccountingController < ActionController::Base
   def reports
     contact_id = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts[0].contact_id
     @reports = xero_client.accounting_api.get_report_aged_payables_by_contact(current_user.active_tenant_id, contact_id).reports
+  end
+
+  def get_report_profit_and_loss
+    params = {
+      from_date: DateTime.new(2020, 7, 1),
+      to_date: DateTime.new(2021, 6, 30),
+      timeframe: "YEAR",
+      standard_layout: true,
+      payments_only: false
+    }
+    result = xero_client.accounting_api.get_report_profit_and_loss(current_user.active_tenant_id, params)
+    @report = result.reports.first
+    puts @report.inspect
   end
 
   def taxrates
