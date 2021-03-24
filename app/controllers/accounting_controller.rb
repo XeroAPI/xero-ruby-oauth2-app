@@ -68,7 +68,31 @@ class AccountingController < ActionController::Base
   end
 
   def accounts
-    @accounts = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts
+    opts = {
+
+    }
+    @accounts = xero_client.accounting_api.get_account(current_user.active_tenant_id, 'ead52db6-98c0-41f8-9962-764c7da3d702').accounts
+  end
+
+  def create_accounts
+    accounts = { accounts: [
+      { 
+        code: "8200",
+        name: "Realized Currency Gains (dup)",
+        status: "ACTIVE",
+        type: "EXPENSE",
+        tax_type: "NONE",
+        description: "Gains or losses made due to currency exchange rates",
+        enable_payments_to_account: false,
+        show_in_expense_claims: false,
+        bank_account_type: "",
+        reporting_code: "EXP.FOR.RGL",
+        has_attachments: false,
+        add_to_watchlist: false
+      }
+    ]}
+
+    @accounts = xero_client.accounting_api.create_account(current_user.active_tenant_id, accounts).accounts
   end
   
   def accounts_filtered
@@ -212,6 +236,18 @@ class AccountingController < ActionController::Base
     @contactgroups = xero_client.accounting_api.get_contact_groups(current_user.active_tenant_id).contact_groups
   end
 
+  def contactgroups_create
+    contact_group = { 
+      name: "VIPs #{rand(10000)}"
+    } 
+    
+    contactGroups = {  
+      contact_groups: [contact_group]
+    }
+    
+    @contact_groups = xero_client.accounting_api.create_contact_group(current_user.active_tenant_id, contactGroups).contact_groups
+  end
+
   def creditnotes
     @creditnotes = xero_client.accounting_api.get_credit_notes(current_user.active_tenant_id).credit_notes
   end
@@ -231,7 +267,6 @@ class AccountingController < ActionController::Base
   def journals
     @journals = xero_client.accounting_api.get_journals(current_user.active_tenant_id).journals
     @assets = xero_client.asset_api.get_assets(current_user.active_tenant_id, 'DRAFT').items
-    -fail
   end
 
   def linked_transactions
@@ -239,7 +274,50 @@ class AccountingController < ActionController::Base
   end
 
   def manualjournals
-    @manual_journals = xero_client.accounting_api.get_manual_journals(current_user.active_tenant_id).manual_journals
+    opts = {
+      page: 1,
+    }
+    @manual_journals = xero_client.accounting_api.get_manual_journals(current_user.active_tenant_id, opts).manual_journals
+  end
+
+  def manualjournals_create
+    @account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts.sample
+    manual_journals = {
+      manual_journals: [
+        {
+          line_amount_types: "Exclusive",
+          status: "POSTED",
+          narration: "Sync GL Amount",
+          date: "2021-03-17T17:11:55.6074358Z",
+          url: "https://api.xero.com/api.xro/2.0/ManualJournals",
+          show_on_cash_basis_reports: true,
+          journal_lines: [
+            {
+              line_amount: 50.5000,
+              account_code: "820",
+              account_id: "ead52db6-98c0-41f8-9962-764c7da3d702",
+              description: "Realized Currency Gains",
+              tax_type: "",
+              is_blank: false
+            },
+            {
+              line_amount: -50.5000,
+              account_code: @account.code,
+              account_id: @account.account_id,
+              description:"Rounding",
+              tax_type: "",
+              is_blank: false
+           }
+          ]
+        }
+        ]
+      }
+    puts "\n"
+    puts "\n"
+    puts "manual_journals::::: #{manual_journals.inspect}"
+    puts "\n"
+    puts "\n"
+    @manual_journals = xero_client.accounting_api.create_manual_journals(current_user.active_tenant_id, manual_journals).manual_journals
   end
 
   def organisations
@@ -302,6 +380,32 @@ class AccountingController < ActionController::Base
 
   def quotes
     @quotes = xero_client.accounting_api.get_quotes(current_user.active_tenant_id).quotes
+  end
+
+  def create_quotes
+    contact_id = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts[0].contact_id
+    bank_account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id, {}).accounts.sample
+    quotes = {
+      quotes: [
+        {
+          contact: {
+            contact_id: contact_id
+          },
+          line_amount_types: XeroRuby::Accounting::QuoteLineAmountTypes::NOTAX,
+          date: DateTime.new(2020, 7, 1),
+          line_items: [
+            {
+              description: "Quote Description",
+              quantity: 1,
+              unit_amount: 20,
+              account_code: bank_account.code
+            }
+          ]
+        }
+      ]
+    }
+      
+    @quotes = xero_client.accounting_api.create_quotes(current_user.active_tenant_id, quotes).quotes
   end
 
   def receipts
