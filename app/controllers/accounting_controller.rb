@@ -68,27 +68,20 @@ class AccountingController < ActionController::Base
   end
 
   def accounts
-    opts = {
-
-    }
-    @accounts = xero_client.accounting_api.get_account(current_user.active_tenant_id, 'ead52db6-98c0-41f8-9962-764c7da3d702').accounts
+    @accounts = xero_client.accounting_api.get_account(current_user.active_tenant_id).accounts
   end
 
   def create_accounts
     accounts = { accounts: [
       { 
-        code: "8200",
-        name: "Realized Currency Gains (dup)",
+        code: "#{rand(1000)}",
+        name: "My Sweeet Account #{rand(100)}",
         status: "ACTIVE",
         type: "EXPENSE",
         tax_type: "NONE",
-        description: "Gains or losses made due to currency exchange rates",
-        enable_payments_to_account: false,
-        show_in_expense_claims: false,
-        bank_account_type: "",
-        reporting_code: "EXP.FOR.RGL",
-        has_attachments: false,
-        add_to_watchlist: false
+        description: "Gains or losses made due to ice cream",
+        enable_payments_to_account: true,
+        show_in_expense_claims: false
       }
     ]}
 
@@ -287,16 +280,14 @@ class AccountingController < ActionController::Base
         {
           line_amount_types: "Exclusive",
           status: "POSTED",
-          narration: "Sync GL Amount",
-          date: "2021-03-17T17:11:55.6074358Z",
-          url: "https://api.xero.com/api.xro/2.0/ManualJournals",
+          narration: "Ice cream payroll",
+          date: DateTime.now.to_s,
           show_on_cash_basis_reports: true,
           journal_lines: [
             {
               line_amount: 50.5000,
-              account_code: "820",
-              account_id: "ead52db6-98c0-41f8-9962-764c7da3d702",
-              description: "Realized Currency Gains",
+              account_code: @account.code,
+              account_id: @account.account_id,
               tax_type: "",
               is_blank: false
             },
@@ -310,13 +301,8 @@ class AccountingController < ActionController::Base
            }
           ]
         }
-        ]
-      }
-    puts "\n"
-    puts "\n"
-    puts "manual_journals::::: #{manual_journals.inspect}"
-    puts "\n"
-    puts "\n"
+      ]
+    }
     @manual_journals = xero_client.accounting_api.create_manual_journals(current_user.active_tenant_id, manual_journals).manual_journals
   end
 
