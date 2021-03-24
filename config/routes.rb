@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   # accounting routes
   get '/accounts', to: 'accounting#accounts'
+  get '/create_accounts', to: 'accounting#create_accounts'
   get '/accounts_filtered', to: 'accounting#accounts_filtered'  
   get '/create_account_attachment_by_file_name', to: 'accounting#create_account_attachment_by_file_name'
 
@@ -43,6 +44,7 @@ Rails.application.routes.draw do
   get '/contact_history', to: 'accounting#contact_history'
 
   get '/contactgroups', to: 'accounting#contactgroups'
+  get '/contactgroups_create', to: 'accounting#contactgroups_create'
 
   get '/creditnotes', to: 'accounting#creditnotes'
 
@@ -57,6 +59,7 @@ Rails.application.routes.draw do
   get '/linked_transactions', to: 'accounting#linked_transactions'
 
   get '/manualjournals', to: 'accounting#manualjournals'
+  get '/manualjournals_create', to: 'accounting#manualjournals_create'
 
   get '/organisations', to: 'accounting#organisations'
 
@@ -73,6 +76,7 @@ Rails.application.routes.draw do
   get '/purchaseorders', to: 'accounting#purchaseorders'
 
   get '/quotes', to: 'accounting#quotes'
+  get '/create_quotes', to: 'accounting#create_quotes'
 
   get '/receipts', to: 'accounting#receipts'
 
