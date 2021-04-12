@@ -10,7 +10,7 @@ class AccountingController < ActionController::Base
   def invoices
     # Get all Invoices where:
     # 1) AUTHORSED Invoices
-    # 2) where amount due > 0
+  # 2) where amount due > 0
     # 3) modified in the last year
     get_one_opts = { 
       statuses: [XeroRuby::Accounting::Invoice::AUTHORISED],
@@ -46,8 +46,42 @@ class AccountingController < ActionController::Base
   end
 
   def invoices_create
+    trackingcategories = xero_client.accounting_api.get_tracking_categories(current_user.active_tenant_id).tracking_categories
+    category = trackingcategories.first
+    account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts.sample
+    account_code = account.code
+
     contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts
-    invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { ContactId: contacts.sample.contact_id }, LineItems: [{ Description: "Acme Tires Desc",  quantity: 32.0, unitAmount: BigDecimal("20.99"), account_code: "600", tax_type: XeroRuby::Accounting::TaxType::NONE }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}
+    invoices = {
+      invoices: [
+        {
+          type: XeroRuby::Accounting::Invoice::ACCREC,
+          contact: {
+            ContactId: contacts.sample.contact_id
+          },
+          LineItems: [
+            {
+              description: "Acme Tires Desc",
+              quantity: 32.0,
+              unit_amount: BigDecimal("20.99"),
+              account_code: account_code,
+              tax_type: XeroRuby::Accounting::TaxType::NONE,
+              tracking: [
+                {
+                  tracking_category_id: category.tracking_category_id,
+                  name: category.name,
+                  option: category.options.sample.name
+                }
+              ]
+            }
+          ],
+          date: "2019-03-11",
+          due_date: "2018-12-10",
+          reference: "Website Design",
+          status: XeroRuby::Accounting::Invoice::DRAFT
+        }
+      ]
+    }
     @invoices = xero_client.accounting_api.create_invoices(current_user.active_tenant_id, invoices).invoices
   end
 
@@ -216,6 +250,51 @@ class AccountingController < ActionController::Base
       }
     }
     @contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id, opts).contacts
+  end
+
+  def contacts_create
+    trackingcategories = xero_client.accounting_api.get_tracking_categories(current_user.active_tenant_id).tracking_categories
+    category = trackingcategories.first
+    contacts = {
+      contacts: [
+        { 
+          name: "Bruce Banner #{rand(10000)}",
+          email_address: "hulk@avengers#{rand(10000)}.com",
+          phones: [
+            {
+              phone_type: XeroRuby::Accounting::Phone::MOBILE,
+              phone_number: "555-1212",
+              phone_area_code: "303"
+            }
+          ],
+          payment_Terms: {
+            bills: {
+              day: 15,
+              type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH
+            },
+            sales: {
+              day: 10,
+              type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH
+            }
+          },
+          sales_tracking_categories: [
+            {
+              tracking_category_id: category.tracking_category_id,
+              tracking_category_name: category.name,
+              tracking_option_name: category.options.sample.name
+            }
+          ],
+          purchases_tracking_categories: [
+            {
+              tracking_category_id: category.tracking_category_id,
+              tracking_category_name: category.name,
+              tracking_option_name: category.options.sample.name
+            }
+          ]
+        }
+      ]
+    }
+    @contact = xero_client.accounting_api.create_contacts(current_user.active_tenant_id, contacts).contacts.first
   end
   
   def contact_history

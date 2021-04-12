@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   get '/brandingthemes', to: 'accounting#brandingthemes'
 
   get '/contacts', to: 'accounting#contacts'
+  get '/contacts_create', to: 'accounting#contacts_create'
   get '/contact_history', to: 'accounting#contact_history'
 
   get '/contactgroups', to: 'accounting#contactgroups'
