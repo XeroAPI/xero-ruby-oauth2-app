@@ -195,30 +195,55 @@ class AccountingController < ActionController::Base
   end
 
   def batchpayments_create
-    account_opts = {
-      where: {
-        type: ["==", XeroRuby::Accounting::Account::BANK]
-      }
-    }
-    account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id, account_opts).accounts.sample
     contact = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts.sample
     org = xero_client.accounting_api.get_organisations(current_user.active_tenant_id).organisations
+    opts = {
+      where: {
+        type: ["==", XeroRuby::Accounting::Account::EXPENSE],
+        enable_payments_to_account: ["==", true]
+      }
+    }
+    bank_account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id, opts).accounts.sample
+    
     currency = org.first.base_currency
-    invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, currency: currency, contact: { contact_id: contact.contact_id }, line_items: [{ Description: "Acme Tires Desc",  quantity: 32.0, unit_amount: BigDecimal("20.99"), account_code: "600", tax_type: XeroRuby::Accounting::TaxType::INPUT }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::AUTHORISED }]}
+    invoices = {
+      invoices: [
+        {
+          type: XeroRuby::Accounting::Invoice::ACCREC,
+          currency: currency,
+          contact: {
+            contact_id: contact.contact_id
+          },
+          line_items: [
+            {
+              description: "Acme Tires Desc",
+              quantity: 32.0,
+              unit_amount: BigDecimal("20.99"),
+              account_code: bank_account.code,
+              tax_type: XeroRuby::Accounting::TaxType::INPUT
+            }
+          ],
+          date: "2019-03-11",
+          due_date: "2018-12-10",
+          reference: "Website Design",
+          status: XeroRuby::Accounting::Invoice::AUTHORISED
+        }
+      ]
+    }
     invoice = xero_client.accounting_api.create_invoices(current_user.active_tenant_id, invoices).invoices.first
     
     batch_payments = {
       batch_payments: [
         {
           account: {
-            account_id: account.account_id
+            account_id: bank_account.account_id
           }, 
           reference: "my-ref-#{rand(100)}",
           date: DateTime.now,
           payments: [
             { 
               account: { 
-                code: account.code 
+                code: bank_account.code 
               }, 
               date: DateTime.now,
               amount: (invoice.amount_due / BigDecimal("2.0")).ceil(2), 
