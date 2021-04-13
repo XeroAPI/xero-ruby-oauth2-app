@@ -1,5 +1,5 @@
 <ol>
-  <% elements.flatten.each do |element| %>
+  <% elements&.flatten&.each do |element| %>
     <li><%= element ? element.to_attributes : 'No Record' %></li>  
     <hr>
   <% end %>

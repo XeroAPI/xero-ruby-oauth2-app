@@ -29,7 +29,8 @@ module ApplicationHelper
       scopes: ENV['SCOPES'],
       state: 'this is area for customer state param'
     }
-    @xero_client ||= XeroRuby::ApiClient.new(credentials: creds)
+    config = { timeout: 30, debugging: true }
+    @xero_client ||= XeroRuby::ApiClient.new(credentials: creds, config: config)
 
     if current_user&.token_set
       @xero_client.set_token_set(current_user.token_set)
