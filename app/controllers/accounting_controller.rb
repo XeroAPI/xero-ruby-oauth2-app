@@ -102,7 +102,7 @@ class AccountingController < ActionController::Base
   end
 
   def accounts
-    @accounts = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts
+    @accounts = xero_client.accounting_api.get_account(current_user.active_tenant_id).accounts
   end
 
   def create_accounts
@@ -425,30 +425,7 @@ class AccountingController < ActionController::Base
   def payments_create
     # first find a contact, and create an invoice
     contact = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts.sample
-    account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts.sample
-    invoices = {
-      invoices: [
-        {
-          type: XeroRuby::Accounting::Invoice::ACCREC,
-          contact: {
-            contact_id: contact.contact_id
-          },
-          line_items: [
-            {
-              description: "Acme Tires Desc",
-              quantity: 32.0,
-              unit_amount: BigDecimal("20.99"),
-              account_code: account.code,
-              tax_type: XeroRuby::Accounting::TaxType::NONE
-            }
-          ],
-          date: "2019-03-11",
-          due_date: "2018-12-10",
-          reference: "Website Design",
-          status: XeroRuby::Accounting::Invoice::AUTHORISED
-        }
-      ]
-    }
+    invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: contact.contact_id }, line_items: [{ Description: "Acme Tires Desc",  quantity: 32.0, unit_amount: BigDecimal("20.99"), account_code: "600", tax_type: XeroRuby::Accounting::TaxType::NONE }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::AUTHORISED }]}
     @invoice = xero_client.accounting_api.create_invoices(current_user.active_tenant_id, invoices).invoices.first
 
     # then build two payments and create them
