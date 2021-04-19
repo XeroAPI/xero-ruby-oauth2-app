@@ -1,1 +1,9 @@
+<h1>Xero Ruby OAuth Race Condition</h1>
+<p>(Use a threaded webserver, like Puma)</p>
+<p>First, make a request with a delay then make a second request. You'll see the access token 
+from the second request overrides that from the first</p>
+
+<%= link_to "Request with Delay", '/delayed', remote: true, data: { disable_with: "Requesting..." } %>
+<%= link_to "Other Request", '/normal', remote: true, data: { disable_with: "Requesting..." } %>
+
 <%= render partial: "home_partial" %>

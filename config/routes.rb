@@ -81,6 +81,10 @@ Rails.application.routes.draw do
 
   get '/receipts', to: 'accounting#receipts'
 
+
+  get '/delayed', to: 'application#xero_request_with_delay'
+  get '/normal', to: 'application#xero_request'
+
   get '/reports', to: 'accounting#reports'
   get '/get_report_profit_and_loss', to: 'accounting#get_report_profit_and_loss'
 
