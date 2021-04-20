@@ -102,7 +102,7 @@ class AccountingController < ActionController::Base
   end
 
   def accounts
-    @accounts = xero_client.accounting_api.get_account(current_user.active_tenant_id).accounts
+    @accounts = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts
   end
 
   def create_accounts
