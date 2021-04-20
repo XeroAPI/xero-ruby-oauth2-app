@@ -31,12 +31,9 @@ class FilesController < ActionController::Base
     file = File.new(Rails.root.join('app/assets/images/xero-api.png'))
     opts = {
       folder_id: @folder.id,
-      body: file,
-      name: file_name,
-      filename: file_name,
       mime_type: 'image/png'
     }
-    @file = xero_client.files_api.upload_file(current_user.active_tenant_id, opts)
+    @file = xero_client.files_api.upload_file(current_user.active_tenant_id, file, file_name, file_name, opts)
   end
 
   def update_file
