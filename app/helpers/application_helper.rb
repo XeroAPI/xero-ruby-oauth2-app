@@ -2,11 +2,12 @@ module ApplicationHelper
   require 'jwt'
 
   def token_expired
-    token_expiry = Time.at(access_token['exp'])
-    exp_text = time_ago_in_words(token_expiry)
-    puts "token_expiry #{token_expiry}"
-    puts "Time.now #{Time.now}"    
-    token_expiry > Time.now ? "in #{exp_text}" : "#{exp_text} ago" 
+    # token_expiry = Time.at(access_token['exp'])
+    # exp_text = time_ago_in_words(token_expiry)
+    # puts "token_expiry #{token_expiry}"
+    # puts "Time.now #{Time.now}"    
+    # token_expiry > Time.now ? "in #{exp_text}" : "#{exp_text} ago" 
+    xero_client.token_expired?
   end
 
   def id_token
