@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get '/invoices', to: 'accounting#invoices'
   get '/invoices_recent', to: 'accounting#invoices_recent'
   get '/invoices_create', to: 'accounting#invoices_create'
+  get '/invoices_filtered', to: 'accounting#invoices_filtered'
   get '/get_invoice_as_pdf', to: 'accounting#get_invoice_as_pdf'
   get '/accounting_invoice_create_attachment', to: 'accounting#create_invoice_attachment_by_file_name'
 

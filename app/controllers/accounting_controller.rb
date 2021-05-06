@@ -45,6 +45,19 @@ class AccountingController < ActionController::Base
     render :invoices_create
   end
 
+  def invoices_filtered
+    contact = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts.sample
+    opts = { 
+      # if_modified_since: (DateTime.now - 30.minute).to_s,
+      where: {
+        status: ['=', XeroRuby::Accounting::Invoice::PAID],
+        contact_id: ['=', '091b7486-b724-403c-92ba-3e39f2d4c569']
+      }
+    }
+    @invoices = xero_client.accounting_api.get_invoices(current_user.active_tenant_id, opts).invoices
+    render :invoices_create
+  end
+
   def invoices_create
     trackingcategories = xero_client.accounting_api.get_tracking_categories(current_user.active_tenant_id).tracking_categories
     category = trackingcategories.first
