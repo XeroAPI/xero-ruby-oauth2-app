@@ -6,11 +6,18 @@ class AccountingController < ActionController::Base
   before_action :has_token_set?
 
   # xero_client is setup in application_helper.rb
+
+  def budgets
+    # https://developer.xero.com/documentation/api/budgets
+    # if you are having issues in adding the accounting.budgets.read scope, get in touch => api@xero.com
+    @budgets = xero_client.accounting_api.get_budgets(current_user.active_tenant_id).budgets
+    @budget = xero_client.accounting_api.get_budget(current_user.active_tenant_id, @budgets.sample.budget_id).budgets
+  end
   
   def invoices
     # Get all Invoices where:
     # 1) AUTHORSED Invoices
-  # 2) where amount due > 0
+    # 2) where amount due > 0
     # 3) modified in the last year
     get_one_opts = { 
       statuses: [XeroRuby::Accounting::Invoice::AUTHORISED],
@@ -48,7 +55,6 @@ class AccountingController < ActionController::Base
   def invoices_filtered
     contact = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts.sample
     opts = { 
-      # if_modified_since: (DateTime.now - 30.minute).to_s,
       where: {
         status: ['=', XeroRuby::Accounting::Invoice::PAID],
         contact_id: ['=', '091b7486-b724-403c-92ba-3e39f2d4c569']
@@ -125,7 +131,7 @@ class AccountingController < ActionController::Base
         name: "My Sweeet Account #{rand(100)}",
         status: "ACTIVE",
         type: "EXPENSE",
-        tax_type: "NONE",
+        tax_type: "INPUT",
         description: "Gains or losses made due to ice cream",
         enable_payments_to_account: true,
         show_in_expense_claims: false
@@ -359,7 +365,12 @@ class AccountingController < ActionController::Base
   end
 
   def creditnotes
-    @creditnotes = xero_client.accounting_api.get_credit_notes(current_user.active_tenant_id).credit_notes
+    opts = {
+      where: {
+        contact_id: ['=', '37918a06-92f6-4edb-bfe0-1fc041c90f8b']
+      }
+    }
+    @creditnotes = xero_client.accounting_api.get_credit_notes(current_user.active_tenant_id, opts).credit_notes
   end
 
   def currencies
@@ -516,8 +527,10 @@ class AccountingController < ActionController::Base
   end
 
   def reports
-    contact_id = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts[0].contact_id
-    @reports = xero_client.accounting_api.get_report_aged_payables_by_contact(current_user.active_tenant_id, contact_id).reports
+    @reports = xero_client.accounting_api.get_reports_list(current_user.active_tenant_id).reports
+    sleep 1
+    report_id = @reports.first.report_id
+    @report = xero_client.accounting_api.get_report_from_id(current_user.active_tenant_id, report_id).reports
   end
 
   def get_report_profit_and_loss
@@ -528,9 +541,11 @@ class AccountingController < ActionController::Base
       standard_layout: true,
       payments_only: false
     }
-    result = xero_client.accounting_api.get_report_profit_and_loss(current_user.active_tenant_id, params)
-    @report = result.reports.first
-    puts @report.inspect
+    @report = xero_client.accounting_api.get_report_profit_and_loss(current_user.active_tenant_id, params).reports.first
+  end
+
+  def get_report_budget_summary
+    @report = xero_client.accounting_api.get_report_budget_summary(current_user.active_tenant_id).reports.first
   end
 
   def taxrates
@@ -544,5 +559,4 @@ class AccountingController < ActionController::Base
   def users
     @users = xero_client.accounting_api.get_users(current_user.active_tenant_id).users
   end
-
 end
