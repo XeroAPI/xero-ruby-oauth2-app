@@ -84,12 +84,15 @@ Rails.application.routes.draw do
 
   get '/reports', to: 'accounting#reports'
   get '/get_report_profit_and_loss', to: 'accounting#get_report_profit_and_loss'
+  get '/get_report_budget_summary', to: 'accounting#get_report_budget_summary'
 
   get '/taxrates', to: 'accounting#taxrates'
 
   get '/trackingcategories', to: 'accounting#trackingcategories'
 
   get '/users', to: 'accounting#users'
+
+  get '/budgets', to: 'accounting#budgets'
 
   # asset routes
   get '/assets', to: 'assets#assets'

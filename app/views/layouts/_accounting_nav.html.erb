@@ -33,6 +33,17 @@
     <span class="menu-collapsed">Create Account Attachment</span>
     </a>
   </div>
+   <!-- BUDGETS -->
+  <a href="#budgets" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">budgets</span>
+    </div>
+  </a>
+  <div id="budgets" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_budgets_get" href="/budgets" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Get</span>
+    </a>
+  </div>
   <!-- CONTACTS -->
   <a href="#contacts" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-start align-items-center">
@@ -307,7 +318,7 @@
     </div>
   </a>
   <div id="receipts" class="collapse sidebar-submenu" data-parent="#accounting">
-    <a id="accounting_receipt_read_all" href="/receipt" class="list-group-item list-group-item-action bg-dark text-white">
+    <a id="accounting_receipt_read_all" href="/receipts" class="list-group-item list-group-item-action bg-dark text-white">
     <span class="menu-collapsed">Get (all)</span>
     </a>
   </div>
@@ -318,12 +329,17 @@
   </a>
   <div id="reports" class="collapse sidebar-submenu" data-parent="#accounting">
     <a id="accounting_report_read_all" href="/reports" class="list-group-item list-group-item-action bg-dark text-white">
-    <span class="menu-collapsed">Get (all)</span>
+    <span class="menu-collapsed">Get All (org unique)</span>
     </a>
   </div>
   <div id="reports" class="collapse sidebar-submenu" data-parent="#accounting">
     <a id="accounting_report_profit_loss" href="/get_report_profit_and_loss" class="list-group-item list-group-item-action bg-dark text-white">
     <span class="menu-collapsed">Report (Profit & Loss)</span>
+    </a>
+  </div>
+  <div id="reports" class="collapse sidebar-submenu" data-parent="#accounting">
+    <a id="accounting_report_profit_loss" href="/get_report_budget_summary" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Report (BankSummary)</span>
     </a>
   </div>
   <a href="#taxrates" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
