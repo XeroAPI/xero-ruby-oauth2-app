@@ -34,3 +34,4 @@ yarn-debug.log*
 .env
 *.sqlite3
 *.DS_Store
+/.idea/
