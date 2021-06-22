@@ -64,7 +64,6 @@ This includes some helpers that showcase how to decode the individual pieces of 
 * xero_client
 * accounting_api
 * authorization_url
-* latest_connection
 
 ---
 

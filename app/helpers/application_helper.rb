@@ -55,14 +55,4 @@ module ApplicationHelper
   def authorization_url
     @authorization_url ||= xero_client.authorization_url 
   end
-
-  def latest_connection(connections)
-    if !connections.empty?
-      connections.sort { |a,b|
-        DateTime.parse(a['updatedDateUtc']) <=> DateTime.parse(b['updatedDateUtc'])
-      }.first['tenantId']
-    else
-      nil
-    end
-  end
 end
