@@ -35,7 +35,7 @@
       <header>
         <% if current_user && !current_user.token_set %>
           <a href="<%= authorization_url %>">
-            <img src='https://developer.xero.com/static/images/documentation/ConnectToXero2019/connect-blue.svg'>
+            <img src='https://www.xero.com/etc/designs/xero-cms/clientlib/assets/img/logo/logo-xero-blue.svg'>
           </a>
         <% elsif current_user %>
           <a href="<%= authorization_url %>" title='Click to authorize +1 organisations'>
