@@ -125,4 +125,15 @@ Rails.application.routes.draw do
   get '/payroll/timesheets/au', to: 'payroll_au#timesheets'
   get '/payroll/employees/nz', to: 'payroll_nz#employees'
   get '/payroll/employees/uk', to: 'payroll_uk#employees'
+
+  # finance routes
+  get '/finance/account_usage', to: 'finances#accounting_activity_usage'
+  get '/finance/lock_history', to: 'finances#accounting_activity_lock_history'
+  get '/finance/report_history', to: 'finances#accounting_activity_report_history'
+  get '/finance/user_activities', to: 'finances#accounting_activity_user_activities'
+  get '/finance/cash_validation', to: 'finances#cash_validation'
+  get '/finance/balance_sheet', to: 'finances#financial_statement_balance_sheet'
+  get '/finance/cash_flow', to: 'finances#financial_statement_cashflow'
+  get '/finance/profit_loss', to: 'finances#financial_statement_profit_and_loss'
+  get '/finance/trial_balance', to: 'finances#financial_statement_trial_balance'
 end

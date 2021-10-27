@@ -1,0 +1,85 @@
+<!-- FINANCE BUTTON -->
+<a id="finance_menu" href="#finance" data-toggle="collapse"  aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+  <div class="d-flex w-100 justify-content-start align-items-center">
+    <span class="menu-collapsed">Finance</span>
+  </div>
+</a>
+
+<!-- FINANCE SUBMENU -->
+<div id="finance" class="collapse sidebar-submenu <%= controller_name.include?('finance') ? 'show' : '' %>" data-parent="#sidebar-container">
+  <a href="#account-activity" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <!-- ACCOUNT ACTIVITY -->
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Accounting Activities</span>
+    </div>
+  </a>
+
+  <div id="account-activity" class="collapse sidebar-submenu" data-parent="#account-activity">
+    <a id="accounting_activity_usage" href="/finance/account_usage" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Accounting Activity Account Usage</span>
+    </a>
+  </div>
+
+  <div id="account-activity" class="collapse sidebar-submenu" data-parent="#account-activity">
+    <a id="lock_history" href="/finance/lock_history" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Lock History</span>
+    </a>
+  </div>
+
+  <div id="account-activity" class="collapse sidebar-submenu" data-parent="#account-activity">
+  <a id="report_history" href="/finance/report_history" class="list-group-item list-group-item-action bg-dark text-white">
+    <span class="menu-collapsed">Report History</span>
+  </a>
+</div>
+
+  <div id="account-activity" class="collapse sidebar-submenu" data-parent="#account-activity">
+    <a id="user_activities" href="/finance/user_activities" class="list-group-item list-group-item-action bg-dark text-white">
+        <span class="menu-collapsed">User Activities</span>
+    </a>
+  </div>
+
+  <a href="#cash-validation" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <!-- CASH VALIDATION -->
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Cash Validation</span>
+    </div>
+  </a>
+
+  <div id="cash-validation" class="collapse sidebar-submenu" data-parent="#cash-validation">
+    <a id="accounting_activity_usage" href="/finance/cash_validation" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Cash Validation Report</span>
+    </a>
+  </div>
+
+  <a href="#financial-reports" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
+    <!-- FINANCIAL REPORTS -->
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <span class="menu-collapsed">Financial Reports</span>
+    </div>
+  </a>
+
+  <div id="financial-reports" class="collapse sidebar-submenu" data-parent="#financial-reports">
+    <a id="accounting_activity_usage" href="/finance/balance_sheet" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Balance Sheet</span>
+    </a>
+  </div>
+
+  <div id="financial-reports" class="collapse sidebar-submenu" data-parent="#financial-reports">
+    <a id="accounting_activity_usage" href="/finance/profit_loss" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Profit & Loss</span>
+    </a>
+  </div>
+
+  <div id="financial-reports" class="collapse sidebar-submenu" data-parent="#financial-reports">
+    <a id="accounting_activity_usage" href="/finance/cash_flow" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Cash Flow</span>
+    </a>
+  </div>
+
+  <div id="financial-reports" class="collapse sidebar-submenu" data-parent="#financial-reports">
+    <a id="accounting_activity_usage" href="/finance/trial_balance" class="list-group-item list-group-item-action bg-dark text-white">
+      <span class="menu-collapsed">Trial Balance</span>
+    </a>
+  </div>
+
+</div>
