@@ -6,22 +6,22 @@ class FinancesController < ActionController::Base
     before_action :has_token_set?
     
     def accounting_activity_usage
-      @finance_response = xero_client.finance_api.get_accounting_activity_account_usage(current_user.active_tenant_id, { startMonth: 3.years.ago, endMonth: Date.today}).account_usage
+      @finance_response = xero_client.finance_api.get_accounting_activity_account_usage(current_user.active_tenant_id, { start_month: 11.months.ago.strftime('%Y-%m'), end_month: Date.today.strftime('%Y-%m') })
       render 'finances/finances'
     end
 
     def accounting_activity_lock_history
-      @finance_response = xero_client.finance_api.get_accounting_activity_lock_history(current_user.active_tenant_id)
+      @finance_response = xero_client.finance_api.get_accounting_activity_lock_history(current_user.active_tenant_id, { end_date: 2.months.ago.strftime('%Y-%m-%d') })
       render 'finances/finances'
     end
 
     def accounting_activity_report_history
-      @finance_response = xero_client.finance_api.get_accounting_activity_report_history(current_user.active_tenant_id).reports
+      @finance_response = xero_client.finance_api.get_accounting_activity_report_history(current_user.active_tenant_id, { end_date: 2.months.ago.strftime('%Y-%m-%d') })
       render 'finances/finances'
     end
 
     def accounting_activity_user_activities
-        @finance_response = xero_client.finance_api.get_accounting_activity_user_activities(current_user.active_tenant_id)
+        @finance_response = xero_client.finance_api.get_accounting_activity_user_activities(current_user.active_tenant_id, { data_month: 1.month.ago.strftime('%Y-%m') })
         render 'finances/finances'
     end
 
@@ -31,28 +31,24 @@ class FinancesController < ActionController::Base
     end
 
     def financial_statement_balance_sheet
-      @finance_response = xero_client.finance_api.get_financial_statement_balance_sheet(current_user.active_tenant_id)
+      @finance_response = xero_client.finance_api.get_financial_statement_balance_sheet(current_user.active_tenant_id, { balance_date: 2.months.ago.strftime('%Y-%m-%d') })
       render 'finances/finances'
     end
 
     def financial_statement_cashflow
-        @financial_response = xero_client.finance_api.get_financial_statement_cashflow(current_user.active_tenant_id)
+        @financial_response = xero_client.finance_api.get_financial_statement_cashflow(current_user.active_tenant_id, { start_date: 12.months.ago.strftime('%Y-%m-%d'), end_date: 1.months.ago.strftime('%Y-%m-%d') })
         render 'finances/finances'
     end
 
     def financial_statement_profit_and_loss
-        @financial_response = xero_client.finance_api.get_financial_statement_profit_and_loss(current_user.active_tenant_id)
+        @financial_response = xero_client.finance_api.get_financial_statement_profit_and_loss(current_user.active_tenant_id, { start_date: 12.months.ago.strftime('%Y-%m-%d'), end_date: 1.months.ago.strftime('%Y-%m-%d') })
         render 'finances/finances'
     end
 
     def financial_statement_trial_balance
-        @financial_response = xero_client.finance_api.get_financial_statement_trial_balance(current_user.active_tenant_id)
+        @financial_response = xero_client.finance_api.get_financial_statement_trial_balance(current_user.active_tenant_id, { end_date: 2.months.ago.strftime('%Y-%m-%d') })
         render 'finances/finances'
     end
-
-
-
-
 
   end
   
