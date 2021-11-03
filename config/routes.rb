@@ -136,4 +136,6 @@ Rails.application.routes.draw do
   get '/finance/cash_flow', to: 'finances#financial_statement_cashflow'
   get '/finance/profit_loss', to: 'finances#financial_statement_profit_and_loss'
   get '/finance/trial_balance', to: 'finances#financial_statement_trial_balance'
+  get '/finance/revenue_by_contact', to: 'finances#financial_statement_contacts_revenue'
+  get '/finance/expenses_by_contact', to: 'finances#financial_statement_contacts_expense'
 end
