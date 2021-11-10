@@ -37,7 +37,12 @@ h1, h2,h3, h4 {
   margin-bottom: 5px;
 }
 pre {
-  margin: 0;
+  margin: 20px;
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 .series-font {
   box-sizing: border-box;

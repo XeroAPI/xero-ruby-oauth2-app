@@ -1,0 +1,10 @@
+<h2>To view API request & response logs, see your rails console</h2>
+<hr>
+<h2>Finance API Response JSON Output</h2>
+<%= pretty_json @finance_response.to_json %>
+
+<h2>AwesomePrint Ruby Object Output</h2>
+<%= raw ap @finance_response %>
+
+<h2>Raw AwesomePrint Ruby Object Output</h2>
+<%= raw ap @finance_response, raw: true %>

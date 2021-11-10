@@ -65,4 +65,8 @@ module ApplicationHelper
       nil
     end
   end
+
+  def pretty_json(data)
+    raw "<pre><code>#{JSON.pretty_generate(JSON.parse(data))}</code></pre>"
+  end
 end
