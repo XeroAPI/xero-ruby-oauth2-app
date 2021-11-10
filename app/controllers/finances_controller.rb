@@ -10,11 +10,11 @@ class FinancesController < ActionController::Base
     end
 
     def accounting_activity_lock_history
-      @finance_response = xero_client.finance_api.get_accounting_activity_lock_history(current_user.active_tenant_id, { end_date: 2.months.ago.strftime('%Y-%m-%d') })
+      @finance_response = xero_client.finance_api.get_accounting_activity_lock_history(current_user.active_tenant_id, { end_date: 1.months.ago.strftime('%Y-%m-%d') })
     end
 
     def accounting_activity_report_history
-      @finance_response = xero_client.finance_api.get_accounting_activity_report_history(current_user.active_tenant_id, { end_date: 2.months.ago.strftime('%Y-%m-%d') })
+      @finance_response = xero_client.finance_api.get_accounting_activity_report_history(current_user.active_tenant_id, { end_date: 1.months.ago.strftime('%Y-%m-%d') })
     end
 
     def accounting_activity_user_activities
@@ -43,10 +43,12 @@ class FinancesController < ActionController::Base
 
     def financial_statement_contacts_expense
       @finance_response = xero_client.finance_api.get_financial_statement_contacts_expense(current_user.active_tenant_id)
+      render "finances/contact"
     end
 
     def financial_statement_contacts_revenue
-      @finance_response = xero_client.finance_api.get_financial_statement_contacts_revenue(current_user.active_tenant_id)
+      @finance_response = xero_client.finance_api.get_financial_statement_contacts_revenue(current_user.active_tenant_id, include_manual_journals: true)
+      render "finances/contact"
     end
 
     protected
