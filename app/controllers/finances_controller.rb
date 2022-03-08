@@ -51,6 +51,19 @@ class FinancesController < ActionController::Base
       render "finances/contact"
     end
 
+    def bank_statement_accounting
+      opts = {
+        where: {
+          type: ["==", XeroRuby::Accounting::Account::BANK],
+          status: ["==", XeroRuby::Accounting::Account::ACTIVE]
+        }
+      }
+      account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id, opts).accounts.sample
+      from_date = "2021-04-01"
+      to_date = "2022-03-01"
+      @finance_response = xero_client.finance_api.get_bank_statement_accounting(current_user.active_tenant_id, account.account_id, from_date, to_date)
+    end
+
     protected
     def default_render
       render 'finances/finances'
