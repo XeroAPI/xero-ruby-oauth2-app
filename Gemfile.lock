@@ -1,3 +1,11 @@
+PATH
+  remote: /Users/rett.behrens/Desktop/code/sdks/xero-ruby
+  specs:
+    xero-ruby (3.7.0)
+      faraday (~> 1.0, >= 1.0.1)
+      json (~> 2.1, >= 2.1.0)
+      json-jwt (~> 1.5, >= 1.5.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -91,7 +99,7 @@ GEM
       dotenv (= 2.7.6)
       railties (>= 3.2)
     erubi (1.10.0)
-    faraday (1.9.3)
+    faraday (1.10.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -240,10 +248,6 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    xero-ruby (3.6.0)
-      faraday (~> 1.0, >= 1.0.1)
-      json (~> 2.1, >= 2.1.0)
-      json-jwt (~> 1.5, >= 1.5.2)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.4.2)
@@ -276,7 +280,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   webdrivers
   webpacker (~> 4.0)
-  xero-ruby
+  xero-ruby!
 
 RUBY VERSION
    ruby 2.7.0p0
