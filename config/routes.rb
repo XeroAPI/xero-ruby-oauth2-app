@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   get '/items', to: 'accounting#items'
 
   get '/journals', to: 'accounting#journals'
+  get '/journal_by_number', to: 'accounting#journal_by_number'
 
   get '/linked_transactions', to: 'accounting#linked_transactions'
 

@@ -390,6 +390,12 @@ class AccountingController < ActionController::Base
     @assets = xero_client.asset_api.get_assets(current_user.active_tenant_id, 'DRAFT').items
   end
 
+  def journal_by_number
+    journal = xero_client.accounting_api.get_journals(current_user.active_tenant_id).journals.first
+    journal_number = journal.journal_number
+    @journal_by_number = xero_client.accounting_api.get_journal_by_number(current_user.active_tenant_id, journal_number).journals
+  end
+
   def linked_transactions
     @linked_transactions = xero_client.accounting_api.get_linked_transactions(current_user.active_tenant_id).linked_transactions
   end
