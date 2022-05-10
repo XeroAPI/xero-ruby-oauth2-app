@@ -242,7 +242,7 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    xero-ruby (3.7.1)
+    xero-ruby (3.9.0)
       faraday (~> 1.0, >= 1.0.1)
       json (~> 2.1, >= 2.1.0)
       json-jwt (~> 1.5, >= 1.5.2)
@@ -284,4 +284,4 @@ RUBY VERSION
    ruby 2.7.0p0
 
 BUNDLED WITH
-   2.3.9
+   2.3.6
