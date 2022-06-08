@@ -100,7 +100,10 @@ Rails.application.routes.draw do
 
   # project routes
   get '/projects', to: 'projects#projects'
-
+  get '/projects_one', to: 'projects#projects_one'
+  get '/projects_create', to: 'projects#projects_create'
+  get '/projects_patch', to: 'projects#projects_patch'
+  get '/projects_update', to: 'projects#projects_update'
   # files routes
   get '/get_files', to: 'files#get_files'
   get '/get_file', to: 'files#get_file'
