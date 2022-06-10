@@ -65,4 +65,176 @@ class ProjectsController < ActionController::Base
     @projects = xero_client.project_api.update_project(current_user.active_tenant_id, project_id, project_update)
     render :projects
   end   
+
+  def projects_tasks_get_all
+     #Grab a Project Id
+     project = xero_client.project_api.get_projects(current_user.active_tenant_id).items.first
+     project_id = project.project_id
+
+       opts = {
+        page: 1
+       }
+
+     @projects = project
+     @tasks = xero_client.project_api.get_tasks(current_user.active_tenant_id, project_id, opts)
+     render :tasks
+  end
+  
+  def projects_tasks_get_one
+    #Grab a Project Id
+    project = xero_client.project_api.get_projects(current_user.active_tenant_id).items.first
+    project_id = project.project_id
+
+    @projects = project
+    #Grab a Task Id
+    task = xero_client.project_api.get_tasks(current_user.active_tenant_id, project_id).items.first
+    task_id = task.task_id 
+ 
+    @tasks = xero_client.project_api.get_task(current_user.active_tenant_id, project_id, task_id)
+
+    render :tasks
+ end   
+
+ def projects_tasks_create
+   #Grab a Project Id
+   project = xero_client.project_api.get_projects(current_user.active_tenant_id).items.first
+   project_id = project.project_id
+   @projects = project
+   tasks = {
+    name: "Chase initial deposit",
+    rate: {
+      currency: "GBP",
+      value: 50.00
+    },
+    chargeType: "TIME",
+    estimateMinutes: 120
+  }
+
+  @tasks = xero_client.project_api.create_task(current_user.active_tenant_id, project_id, tasks)
+  render :tasks
+ end
+
+ def projects_tasks_update
+  #Grab a Project Id
+  project = xero_client.project_api.get_projects(current_user.active_tenant_id).items.first
+  project_id = project.project_id
+  @projects = project
+  
+  #Grab a Task Id
+   task = xero_client.project_api.get_tasks(current_user.active_tenant_id, project_id).items.first
+   task_id = task.task_id 
+
+   task_update = {
+    name: "Updated Task here",
+    rate: {
+      currency: "GBP",
+      value: 750.00
+    },
+    chargeType: "FIXED"
+  }
+
+  @tasks = xero_client.project_api.update_task(current_user.active_tenant_id, project_id, task_id, task_update)
+  render :tasks
+end
+
+def projects_tasks_delete
+  #Grab a Project Id
+  project = xero_client.project_api.get_projects(current_user.active_tenant_id).items.first
+  project_id = project.project_id
+  @projects = project
+  
+  #Grab a Task Id
+   task = xero_client.project_api.get_tasks(current_user.active_tenant_id, project_id).items.first
+   task_id = task.task_id 
+
+  @tasks = xero_client.project_api.delete_task(current_user.active_tenant_id, project_id, task_id)
+  render :tasks
+end
+
+def projects_time_get_all
+  #Grab a Project Id
+  project = xero_client.project_api.get_projects(current_user.active_tenant_id).items.first
+  project_id = project.project_id
+  @projects = project
+
+  @times = xero_client.project_api.get_time_entries(current_user.active_tenant_id, project_id).items
+  render :time_entries
+end 
+
+def projects_time_get_one
+  #Grab a Project Id
+  project = xero_client.project_api.get_projects(current_user.active_tenant_id).items.first
+  project_id = project.project_id
+  @projects = project
+
+  times = xero_client.project_api.get_time_entries(current_user.active_tenant_id, project_id).items.first
+  time_id = times.time_entry_id
+
+  @times = xero_client.project_api.get_time_entry(current_user.active_tenant_id, project_id, time_id)
+  render :time_entries
+end 
+
+def projects_time_create
+  #Grab a Project Id
+  project = xero_client.project_api.get_projects(current_user.active_tenant_id).items.first
+  project_id = project.project_id
+  @projects = project
+
+  #Grab a Task Id
+  task = xero_client.project_api.get_tasks(current_user.active_tenant_id, project_id).items.first
+  task_id = task.task_id 
+
+  #Grab a Project user
+  user = xero_client.project_api.get_project_users(current_user.active_tenant_id).items
+  @users = user
+  user = xero_client.project_api.get_project_users(current_user.active_tenant_id).items.last
+  user_id = user.user_id
+
+  times = {
+    userId: user_id,
+    taskId: task_id,
+    dateUtc: "2022-07-01T14:09:15Z",
+    duration: 265,
+    description: "Survey on site"
+  }
+  
+  @times = xero_client.project_api.create_time_entry(current_user.active_tenant_id, project_id, times)
+  
+  render :time_entries
+end 
+
+def projects_time_update
+  #Grab a Project Id
+  project = xero_client.project_api.get_projects(current_user.active_tenant_id).items.first
+  project_id = project.project_id
+  @projects = project
+
+  #Grab a Task Id
+  task = xero_client.project_api.get_tasks(current_user.active_tenant_id, project_id).items.first
+  task_id = task.task_id 
+
+  #Grab a Project user
+  user = xero_client.project_api.get_project_users(current_user.active_tenant_id).items
+  @users = user
+  user = xero_client.project_api.get_project_users(current_user.active_tenant_id).items.last
+  user_id = user.user_id
+
+  #Grab a Time Id
+  times = xero_client.project_api.get_time_entries(current_user.active_tenant_id, project_id).items.first
+  time_id = times.time_entry_id
+
+  time_now = Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')
+  time_update = {
+    userId: user_id,
+    taskId: task_id,
+    dateUtc: time_now,
+    duration: 360,
+  }
+  
+  time = xero_client.project_api.update_time_entry(current_user.active_tenant_id, project_id, time_id, time_update)
+  
+  render :time_entries
+  
+end 
+
 end

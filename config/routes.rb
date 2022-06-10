@@ -104,6 +104,20 @@ Rails.application.routes.draw do
   get '/projects_create', to: 'projects#projects_create'
   get '/projects_patch', to: 'projects#projects_patch'
   get '/projects_update', to: 'projects#projects_update'
+
+  #task routes
+  get '/tasks_get_all', to: 'projects#projects_tasks_get_all'
+  get '/tasks_get_one', to: 'projects#projects_tasks_get_one'
+  get '/tasks_create', to: 'projects#projects_tasks_create'
+  get '/tasks_update', to: 'projects#projects_tasks_update'
+  get '/tasks_delete', to: 'projects#projects_tasks_delete'
+
+  #time entries
+  get '/time_get_all', to: 'projects#projects_time_get_all'
+  get '/time_get_one', to: 'projects#projects_time_get_one'
+  get '/time_create', to: 'projects#projects_time_create'
+  get '/time_update', to: 'projects#projects_time_update'
+
   # files routes
   get '/get_files', to: 'files#get_files'
   get '/get_file', to: 'files#get_file'
