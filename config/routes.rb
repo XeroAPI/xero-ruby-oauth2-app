@@ -117,6 +117,7 @@ Rails.application.routes.draw do
   get '/time_get_one', to: 'projects#projects_time_get_one'
   get '/time_create', to: 'projects#projects_time_create'
   get '/time_update', to: 'projects#projects_time_update'
+  get '/time_delete', to: 'projects#projects_time_delete'
 
   # files routes
   get '/get_files', to: 'files#get_files'

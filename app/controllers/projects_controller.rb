@@ -237,4 +237,20 @@ def projects_time_update
   
 end 
 
+def projects_time_delete
+  #Grab a Project Id
+  project = xero_client.project_api.get_projects(current_user.active_tenant_id).items.first
+  project_id = project.project_id
+  @projects = project
+
+  #Grab a Time Entry Id
+  times = xero_client.project_api.get_time_entries(current_user.active_tenant_id, project_id).items.first
+  time_id = times.time_entry_id
+
+  time_delete = xero_client.project_api.delete_time_entry(current_user.active_tenant_id, project_id, time_id)
+
+  render :time_entries
+  
+end  
+
 end
