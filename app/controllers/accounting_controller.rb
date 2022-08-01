@@ -64,6 +64,7 @@ class AccountingController < ActionController::Base
     render :invoices_create
   end
 
+ 
   def invoices_create
     trackingcategories = xero_client.accounting_api.get_tracking_categories(current_user.active_tenant_id).tracking_categories
     category = trackingcategories.first
@@ -119,6 +120,152 @@ class AccountingController < ActionController::Base
     file = File.read(Rails.root.join('app/assets/images/xero-api.png'))
     @attachment = xero_client.accounting_api.create_invoice_attachment_by_file_name(current_user.active_tenant_id, @invoice.invoice_id, file_name, file, opts)
   end
+
+  def repeating_invoices
+    # Get all Invoices where:
+    opts = { 
+      where: { 
+        total: '>0' ,
+        status: ['=', XeroRuby::Accounting::Invoice::AUTHORISED],
+      }
+    }
+    @invoices = xero_client.accounting_api.get_repeating_invoices(current_user.active_tenant_id, opts).repeating_invoices
+    render :repeating_invoices
+  end
+
+  def repeating_invoice_history
+    opts = { 
+      where: { 
+        total: '>0' ,
+      }
+    }
+
+    @invoices = xero_client.accounting_api.get_repeating_invoices(current_user.active_tenant_id, opts).repeating_invoices.first
+    repeating_invoice_id =  @invoices.id
+ 
+    @history = xero_client.accounting_api.get_repeating_invoice_history(current_user.active_tenant_id, repeating_invoice_id)
+    render :repeating_invoices
+
+  end  
+  
+  def repeating_invoices_create
+    #trackingcategories = xero_client.accounting_api.get_tracking_categories(current_user.active_tenant_id).tracking_categories
+    #category = trackingcategories.first
+
+    account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts.sample
+    account_code = account.code
+
+    contacts = xero_client.accounting_api.get_contacts(current_user.active_tenant_id).contacts
+    repeating_invoices = {
+       repeating_invoices: [
+        {
+          type: XeroRuby::Accounting::Invoice::ACCREC,
+          contact: {
+            ContactId: contacts.sample.contact_id
+          },
+          schedule: {
+            period: 1,
+            unit: "Monthly",
+            due_date: 31,
+            due_date_type:"OFCURRENTMONTH",
+            start_date: "2022-07-04",
+            next_scheduled_date: "2022-07-06"
+          },
+          LineItems: [
+            {
+              description: "Monthly Subscription Premium",
+              quantity: 2.0,
+              unit_amount: BigDecimal("21.50"),
+              account_code: 200,
+              
+            }
+          ],
+          
+          reference: "Nuts45600",
+          approved_for_sending:false,
+          status: XeroRuby::Accounting::Invoice::DRAFT
+        }
+       ]
+    }
+    @invoices = xero_client.accounting_api.create_repeating_invoices(current_user.active_tenant_id, repeating_invoices)
+    render :repeating_invoices_create
+  end  
+
+  def update_repeating_invoice
+    opts = { 
+      where: { 
+        total: '>0',
+      }
+    }
+
+    @invoice = xero_client.accounting_api.get_repeating_invoices(current_user.active_tenant_id).repeating_invoices.first
+    repeating_invoice_id =  @invoice.id
+    contact_id = @invoice.contact.contact_id
+    repeating_invoices = {
+       repeating_invoices: [
+        {
+          ID: repeating_invoice_id,
+          type: XeroRuby::Accounting::Invoice::ACCREC,
+          contact: {
+            ContactId: contact_id
+          },
+          schedule: {
+              period: 1,
+              unit: "Monthly",
+              due_date: 4,
+              due_date_type:"OFCURRENTMONTH",
+              start_date: "2022-08-04",
+              next_scheduled_date: "2022-08-06"
+           },
+           LineItems: [
+            {
+              description: "Monthly Subscription Gold Version",
+              quantity: 4.0,
+              unit_amount: BigDecimal("31.50"),
+              account_code: 200,
+            }
+          ],
+          approved_for_sending:true,
+          status: XeroRuby::Accounting::Invoice::AUTHORISED
+        }
+       ]
+    }
+
+    @invoices = xero_client.accounting_api.update_or_create_repeating_invoices(current_user.active_tenant_id, repeating_invoices)
+
+    render :repeating_invoices_create
+  end 
+
+  def create_repeating_invoice_history
+      opts = { 
+        where: { 
+          total: '>0',
+        }
+      }
+
+     @invoices = xero_client.accounting_api.get_repeating_invoices(current_user.active_tenant_id).repeating_invoices.first
+     repeating_invoice_id =  @invoices.id
+     #user is 'system generated' when done via API
+            
+     history_record = {
+      HistoryRecords: [
+         {
+          Changes: "Updated from CRM",
+          DateUTCString: DateTime.now,    
+          Details: "Period changed from Monthly to Yearly"
+        },
+        {
+          Changes: "Updated from CRM",
+          DateUTCString: "2022-08-01T21:01:29",
+          Details: "Line Items added are extra marketing module subscription"
+        } 
+      ]
+    }
+
+    @history = xero_client.accounting_api.create_repeating_invoice_history(current_user.active_tenant_id,repeating_invoice_id,history_record)
+    render :repeating_invoices
+
+  end 
 
   def accounts
     @accounts = xero_client.accounting_api.get_accounts(current_user.active_tenant_id).accounts

@@ -31,6 +31,13 @@ Rails.application.routes.draw do
   get '/get_invoice_as_pdf', to: 'accounting#get_invoice_as_pdf'
   get '/accounting_invoice_create_attachment', to: 'accounting#create_invoice_attachment_by_file_name'
 
+  # repeating invoices
+  get '/accounting_repeating_invoice_create', to: 'accounting#repeating_invoices_create'
+  get '/accounting_repeating_invoices', to: 'accounting#repeating_invoices'
+  get '/accounting_repeating_invoice_history', to: 'accounting#repeating_invoice_history'
+  get '/accounting_repeating_invoice_update', to: 'accounting#update_repeating_invoice'
+  get '/accounting_repeating_invoice_history_create', to: 'accounting#create_repeating_invoice_history'
+
   get '/banktransactions', to: 'accounting#banktransactions'
   get '/banktransactions_create', to: 'accounting#banktransactions_create'
 
