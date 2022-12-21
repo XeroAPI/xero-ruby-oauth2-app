@@ -165,4 +165,7 @@ Rails.application.routes.draw do
   get '/finance/revenue_by_contact', to: 'finances#financial_statement_contacts_revenue'
   get '/finance/expenses_by_contact', to: 'finances#financial_statement_contacts_expense'
   get '/finance/bank_statement_accounting', to: 'finances#bank_statement_accounting'
+
+  # webhook route
+  post '/webhook', to: 'webhooks#webhook'
 end

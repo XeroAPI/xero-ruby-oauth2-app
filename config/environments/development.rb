@@ -59,4 +59,7 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # set this to your ngrok or localtunnel domain for testing webhooks in development
+  # config.hosts << "solid-boats-sip-107-2-160-48.loca.lt"
 end
