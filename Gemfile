@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '>= 2.7.0'
+ruby '>= 3.1.4'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.6'
 gem 'sqlite3'
 gem 'puma', '~> 4.3'
@@ -27,6 +27,7 @@ group :development do
   gem 'pry'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'psych', '< 4'
 end
 
 

@@ -4,8 +4,8 @@ This Ruby On Rails project demonstrates how to use the https://github.com/XeroAP
 Its purpose is to speed up new ruby devs looking to build amazing applications with the data of users of the Xero Accounting platform: https://xero.com/. Secure authentication is setup using industry standard OAuth2.0. Access/Refresh tokens fuel authorized api calls.
 
 Note: this project was built using:
-* ruby 2.7.0
-* Rails 6.0.2.2
+* ruby 3.3.0
+* Rails 6.0.6.1
 
 ```
 git clone git@github.com:XeroAPI/xero-ruby-oauth2-app.git
