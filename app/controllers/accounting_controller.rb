@@ -356,6 +356,14 @@ class AccountingController < ActionController::Base
     @banktransfers = xero_client.accounting_api.get_bank_transfers(current_user.active_tenant_id, opts).bank_transfers
   end
 
+  def batchpayments_get_one
+    batchpayment = xero_client.accounting_api.get_batch_payments(current_user.active_tenant_id).batch_payments.first
+    batchpaymentId = batchpayment.batch_payment_id
+
+    @batchpayments = xero_client.accounting_api.get_batch_payment(current_user.active_tenant_id, batchpaymentId).batch_payments
+    render :batchpayments
+  end 
+
   def batchpayments
     @batchpayments = xero_client.accounting_api.get_batch_payments(current_user.active_tenant_id).batch_payments
   end
@@ -369,8 +377,9 @@ class AccountingController < ActionController::Base
         enable_payments_to_account: ["==", true]
       }
     }
+
     bank_account = xero_client.accounting_api.get_accounts(current_user.active_tenant_id, opts).accounts.sample
-    
+    #see above where type is expense and enable payments to account is true
     currency = org.first.base_currency
     invoices = {
       invoices: [
@@ -382,16 +391,16 @@ class AccountingController < ActionController::Base
           },
           line_items: [
             {
-              description: "Acme Tires Desc",
+              description: "Acme Tyres Description",
               quantity: 32.0,
-              unit_amount: BigDecimal("20.99"),
+              unit_amount: BigDecimal("10.50"),
               account_code: bank_account.code,
-              tax_type: XeroRuby::Accounting::TaxType::INPUT
+             # tax_type: XeroRuby::Accounting::TaxType::INPUT
             }
           ],
-          date: "2019-03-11",
-          due_date: "2018-12-10",
-          reference: "Website Design",
+          date: "2022-09-14",
+          due_date: "2022-09-14",
+          reference: "Website Design and Consultancy",
           status: XeroRuby::Accounting::Invoice::AUTHORISED
         }
       ]
