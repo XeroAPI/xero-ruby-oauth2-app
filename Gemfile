@@ -42,5 +42,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'jwt'
 gem 'awesome_print', '1.9.2'
-gem 'xero-ruby', '9.0.0'
+gem 'xero-ruby', '9.1.0'
 
