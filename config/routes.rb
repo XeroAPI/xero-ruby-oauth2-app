@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   get '/banktransfers', to: 'accounting#banktransfers'
 
   get '/batchpayments', to: 'accounting#batchpayments'
+  get '/batchpayments_get_one', to: 'accounting#batchpayments_get_one'
   get '/batchpayments_create', to: 'accounting#batchpayments_create'
 
   get '/brandingthemes', to: 'accounting#brandingthemes'
